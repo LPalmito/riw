@@ -1,6 +1,8 @@
 import nltk
 import math
 import matplotlib.pyplot as plt
+import pprint
+import string
 
 
 def render_documents(tokens):
@@ -34,8 +36,15 @@ if __name__ == '__main__':
     text = cacm.read()
 
     # Tokenize the text and render in docs
-    tokens = nltk.word_tokenize(text)
+    tokens = nltk.word_tokenize(text.upper())
     docs = render_documents(tokens)
+
+    # Exclude punctuation from the docs
+    # TODO: Add numbers and so on to the 'exclude' list
+    exclude = set(string.punctuation)
+    for doc in docs:
+        for k, content in doc.items():
+            doc[k] = list(filter(lambda word: word not in exclude, content))
 
     # Keep only the tokens in useful attributes
     useful_tokens = []
@@ -50,6 +59,7 @@ if __name__ == '__main__':
 
     # Find the vocabulary
     unique_useful_tokens = list(set(useful_tokens))
+
     # Question 2 :
     M = len(unique_useful_tokens)
     print("La taille M du vocabulaire est :", M)
@@ -57,6 +67,7 @@ if __name__ == '__main__':
     # Take half of the collection
     half_useful_tokens = useful_tokens[:int(len(useful_tokens)/2)]
     unique_half_useful_tokens = list(set(half_useful_tokens))
+
     # Question 3 :
     T2 = len(half_useful_tokens)
     print("Le nombre T2 de tokens dans .T, .W, .K pour la moitié de la collection est : ", T2)
@@ -70,6 +81,22 @@ if __name__ == '__main__':
     # Question 4 :
     M_1M = math.floor(k*1000000**b)
     print("La taille M_1M du vocabulaire pour 1 million de tokens est : ", M_1M)
+
+    # Find the frequencies of the words
+    frequencies_list = nltk.FreqDist(useful_tokens).most_common()
+    frequencies_list.sort(key=lambda t: t[1])
+    pprint.pprint(frequencies_list)
+
+    # Fill the ranks and the frequencies lists
+    ranks = []
+    frequencies = []
+    for rank, frequency in enumerate(frequencies_list):
+        ranks.append(rank)
+        frequencies.append(frequency[1])
+
+    # Question 5 :
+    plt.plot(ranks, frequencies)
+    plt.show()
 
     # Close cacm.all
     cacm.close()
