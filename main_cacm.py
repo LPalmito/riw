@@ -2,7 +2,7 @@ import nltk
 import math
 import matplotlib.pyplot as plt
 import pprint
-import string
+import regex
 
 
 def render_documents(tokens):
@@ -35,16 +35,22 @@ if __name__ == '__main__':
     cacm = open('./Resources/CACM/cacm.all')
     text = cacm.read()
 
-    # Tokenize the text and render in docs
+    # Tokenize the text and render it in docs
     tokens = nltk.word_tokenize(text.upper())
     docs = render_documents(tokens)
 
-    # Exclude punctuation from the docs
-    # TODO: Add numbers and so on to the 'exclude' list
-    exclude = set(string.punctuation)
+    # Exclude stop words and all which is not [A-Z] in docs
+    stop_word_list = nltk.corpus.stopwords.words('english')
+    stop_word_list = [word.upper() for word in stop_word_list]
+    stop_word_set = set(stop_word_list)
     for doc in docs:
-        for k, content in doc.items():
-            doc[k] = list(filter(lambda word: word not in exclude, content))
+        for k, texts in doc.items():
+            filtered_doc = []
+            for text in texts:
+                match = regex.match('[A-Z]+', text)
+                if match is not None and match.group() not in stop_word_set:
+                    filtered_doc.append(match.group())
+            doc[k] = filtered_doc
 
     # Keep only the tokens in useful attributes
     useful_tokens = []
