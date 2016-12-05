@@ -29,17 +29,8 @@ def render_documents(tokens):
     result.append(current_doc)
     return result
 
-if __name__ == '__main__':
 
-    # Open and read cacm.all
-    cacm = open('./Resources/CACM/cacm.all')
-    text = cacm.read()
-
-    # Tokenize the text and render it in docs
-    tokens = nltk.word_tokenize(text.upper())
-    docs = render_documents(tokens)
-
-    # Exclude stop words and all which is not [A-Z] in docs
+def filter_documents(docs):
     stop_word_list = nltk.corpus.stopwords.words('english')
     stop_word_list = [word.upper() for word in stop_word_list]
     stop_word_set = set(stop_word_list)
@@ -51,6 +42,18 @@ if __name__ == '__main__':
                 if match is not None and match.group() not in stop_word_set:
                     filtered_doc.append(match.group())
             doc[k] = filtered_doc
+    return docs
+
+if __name__ == '__main__':
+
+    # Open and read cacm.all
+    cacm = open('./Resources/CACM/cacm.all')
+    text = cacm.read()
+
+    # Tokenize the text, render it in docs and filter it
+    tokens = nltk.word_tokenize(text.upper())
+    docs = render_documents(tokens)
+    docs = filter_documents(docs)
 
     # Keep only the tokens in useful attributes
     useful_tokens = []
@@ -59,22 +62,20 @@ if __name__ == '__main__':
         useful_tokens.extend(doc['.W'])
         useful_tokens.extend(doc['.K'])
 
+# 2.1 Traitements linguistiques
+
     # Question 1 :
     T = len(useful_tokens)
     print("Le nombre T de tokens dans .T, .W, .K est : ", T)
 
-    # Find the vocabulary
-    unique_useful_tokens = list(set(useful_tokens))
-
     # Question 2 :
+    unique_useful_tokens = list(set(useful_tokens))
     M = len(unique_useful_tokens)
     print("La taille M du vocabulaire est :", M)
 
-    # Take half of the collection
+    # Question 3 :
     half_useful_tokens = useful_tokens[:int(len(useful_tokens)/2)]
     unique_half_useful_tokens = list(set(half_useful_tokens))
-
-    # Question 3 :
     T2 = len(half_useful_tokens)
     print("Le nombre T2 de tokens dans .T, .W, .K pour la moitié de la collection est : ", T2)
     M2 = len(unique_half_useful_tokens)
@@ -90,8 +91,7 @@ if __name__ == '__main__':
 
     # Find the frequencies of the words
     frequencies_list = nltk.FreqDist(useful_tokens).most_common()
-    frequencies_list.sort(key=lambda t: t[1])
-    pprint.pprint(frequencies_list)
+    frequencies_list.sort(key=lambda t: t[1], reverse=True)
 
     # Fill the ranks and the frequencies lists
     ranks = []
@@ -101,8 +101,31 @@ if __name__ == '__main__':
         frequencies.append(frequency[1])
 
     # Question 5 :
+    plt.figure(1)
+    plt.subplot(211)
+    plt.title('f en fonction de r')
     plt.plot(ranks, frequencies)
+    log_ranks = [math.log(rank+1) for rank in ranks]
+    log_frequencies = [math.log(frequency) for frequency in frequencies]
+    plt.subplot(212)
+    plt.title('log(f) en fonction de log(r)')
+    plt.plot(log_ranks, log_frequencies)
     plt.show()
+
+# Indexation
+
+    # Create the link between terms and their id, and doc and their id
+    term_termID = {}
+    for tokenID, token in enumerate(useful_tokens):
+        term_termID[token] = tokenID
+    doc_docID = [(doc['.T']+doc['.W']+doc['.K'], docID) for docID, doc in enumerate(docs)]
+
+    # Create the (termID, docID) tuples and sort them
+    termID_docID = []
+    for doc, docID in doc_docID:
+        for word in doc:
+            termID_docID.append((term_termID[word], docID))
+    termID_docID.sort(key=lambda t_d: (t_d[0], t_d[1]))
 
     # Close cacm.all
     cacm.close()
