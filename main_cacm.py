@@ -6,6 +6,7 @@ import regex
 
 
 def render_documents(tokens):
+    """Return a list of docs created from the tokens (only for CACM)"""
     # Initialisations
     markers = ['.I', '.T', '.W', '.B', '.A', '.N', '.X', '.K']
     current_marker = '.I'
@@ -31,6 +32,7 @@ def render_documents(tokens):
 
 
 def filter_documents(docs):
+    """Filter the docs by keeping only words and deleting all the stopwords"""
     stop_word_list = nltk.corpus.stopwords.words('english')
     stop_word_list = [word.upper() for word in stop_word_list]
     stop_word_set = set(stop_word_list)
@@ -44,6 +46,31 @@ def filter_documents(docs):
             doc[k] = filtered_doc
     return docs
 
+
+def search_term_in_corpus(searched_term, term_termID, termID_docID):
+    """Return the list of docIDs where the search term is"""
+    if searched_term in term_termID:
+        # Retrieve the corresponding termID
+        searched_termID = term_termID[searched_term]
+        # Retrieve the corresponding docIDs
+        searched_docIDs = []
+        for termID, docID in termID_docID:
+            if termID == searched_termID:
+                searched_docIDs.append(docID)
+        return searched_docIDs
+    else:
+        # If the searched term is not in the corpus
+        return []
+
+
+def docIDs_to_docs(docIDs, doc_docID):
+    """Return a list of docs corresponding to the docIDs given"""
+    docs = []
+    for doc, docID in doc_docID:
+        if docID in docIDs:
+            docs.append(doc)
+    return docs
+
 if __name__ == '__main__':
 
     # Open and read cacm.all
@@ -54,6 +81,8 @@ if __name__ == '__main__':
     tokens = nltk.word_tokenize(text.upper())
     docs = render_documents(tokens)
     docs = filter_documents(docs)
+    # TODO: Delete it, only for tests purposes
+    docs = docs[:4]
 
     # Keep only the tokens in useful attributes
     useful_tokens = []
@@ -112,7 +141,7 @@ if __name__ == '__main__':
     plt.plot(log_ranks, log_frequencies)
     plt.show()
 
-# Indexation
+# 2.2 Indexation
 
     # Create the link between terms and their id, and doc and their id
     term_termID = {}
@@ -126,6 +155,16 @@ if __name__ == '__main__':
         for word in doc:
             termID_docID.append((term_termID[word], docID))
     termID_docID.sort(key=lambda t_d: (t_d[0], t_d[1]))
+
+# 2.2.1 Modèle de recherche booléen
+
+    # For a single word as search
+    searched_term = input("Entrez un mot à rechercher dans les documents : ").upper()
+    searched_docIDs = search_term_in_corpus(searched_term, term_termID, term_termID)
+    searched_docs = docIDs_to_docs(searched_docIDs, doc_docID)
+    print(searched_docs)
+
+    # TODO: Filter the search according to the world AND, OR and NOT
 
     # Close cacm.all
     cacm.close()
