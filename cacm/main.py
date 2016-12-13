@@ -24,7 +24,7 @@ if __name__ == '__main__':
     modele_booleen(term_termID, doc_docID, termID_docID)
 
     # 2.2.2 / D Modèle de recherche vectoriel
-    modele_vectoriel()
+    modele_vectoriel(term_termID, doc_docID, termID_docID)
 
     # Ferme cacm.all
     cacm.close()
