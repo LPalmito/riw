@@ -11,4 +11,5 @@ def indexation(useful_tokens, docs):
         for word in doc:
             termID_docID.append((term_termID[word], docID))
     termID_docID.sort(key=lambda t_d: (t_d[0], t_d[1]))
+    print("Indexation effectuée.")
     return term_termID, doc_docID, termID_docID

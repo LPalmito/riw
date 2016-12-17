@@ -14,16 +14,24 @@ if __name__ == '__main__':
     # Prépare le corpus cacm
     useful_tokens, docs = prepare_cacm(text)
 
-    # 2.1 / A Traitements linguistiques
+    print("\n------------------------------------------------------------")
+    print("| 2.1 / A Traitements linguistiques                         |")
+    print("------------------------------------------------------------")
     traitements_linguistiques(useful_tokens)
 
-    # 2.2 / B Indexation
+    print("\n------------------------------------------------------------")
+    print("| 2.2 / B Indexation                                        |")
+    print("------------------------------------------------------------")
     term_termID, doc_docID, termID_docID = indexation(useful_tokens, docs)
 
-    # 2.2.1 / C Modèle de recherche booléen
+    print("\n------------------------------------------------------------")
+    print("| 2.2.1 / C Modèle de recherche booléen                     |")
+    print("------------------------------------------------------------")
     modele_booleen(term_termID, doc_docID, termID_docID)
 
-    # 2.2.2 / D Modèle de recherche vectoriel
+    print("\n------------------------------------------------------------")
+    print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
+    print("------------------------------------------------------------")
     modele_vectoriel(term_termID, doc_docID, termID_docID)
 
     # Ferme cacm.all

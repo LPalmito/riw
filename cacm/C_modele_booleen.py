@@ -1,17 +1,32 @@
 def modele_booleen(term_termID, doc_docID, termID_docID):
     """Print the results of a single-word search and a CNF search"""
-    # For a single word as search
+    # Take user input for a single word as search
     searched_term = input("Entrez un mot à rechercher dans les documents : ").upper()
     searched_docIDs = search_term_in_corpus(searched_term, term_termID, termID_docID)
-    searched_docs = docIDs_to_docs(searched_docIDs, doc_docID)
-    print(searched_docs)
-
-    # For a normal conjunctive expression
-    searched_expression = input("Entrez une expression booléenne sous forme normale conjonctive comme dans l'exemple"
-                              "\nex: 1.2+3.4 = (1) AND (2 OR 3) AND (4) : ").upper()
+    # Display properly the results
+    if len(searched_docIDs) == 0:
+        print("Il n'y a aucun document présent dans le corpus correspondant à votre recherche.")
+    else:
+        print("Les documents correspondant à votre recherche sont :")
+        for s_dID in searched_docIDs:
+            print("- - - - -")
+            print("ID : ", s_dID)
+            print("Contenu : ", docID_to_docs(s_dID, doc_docID))
+    print("- - - - -")
+    # Take user input for a normal conjunctive expression
+    searched_expression = input("Entrez une expression sous forme normale conjonctive comme dans l'exemple suivant :\n"
+                                "ex: 1.2+3.4 = (1) AND (2 OR 3) AND (4)\n").upper()
     searched_docIDs_2 = search_expression_in_corpus(searched_expression, term_termID, termID_docID, len(doc_docID))
-    searched_docs_2 = docIDs_to_docs(searched_docIDs_2, doc_docID)
-    print(searched_docs_2)
+    # Display properly the results
+    if len(searched_docIDs_2) == 0:
+        print("Il n'y a aucun document présent dans le corpus correspondant à votre recherche.")
+    else:
+        print("Les documents correspondant à votre recherche sont :")
+        for s_dID in searched_docIDs_2:
+            print("- - - - -")
+            print("ID : ", s_dID)
+            print("Contenu : ", docID_to_docs(s_dID, doc_docID))
+    print("- - - - -")
 
 
 def search_term_in_corpus(searched_term, term_termID, termID_docID):
@@ -66,10 +81,8 @@ def search_expression_in_corpus(searched_expression, term_termID, termID_docID, 
     return result
 
 
-def docIDs_to_docs(docIDs, doc_docID):
-    """Return a list of docs corresponding to the docIDs given"""
-    docs = []
-    for doc, docID in doc_docID:
-        if docID in docIDs:
-            docs.append(doc)
-    return docs
+def docID_to_docs(docID, doc_docID):
+    """Return the doc corresponding to the given docID"""
+    for d, dID in doc_docID:
+        if docID == dID:
+            return d
