@@ -48,7 +48,7 @@ def search_term_in_corpus(searched_term, term_termID, termID_docID):
 def search_expression_in_corpus(searched_expression, term_termID, termID_docID, len_corpus):
     """Return ths list of docIDs where the searched expression is"""
     # Produce 'search_terms' as a list of list of tuples:
-    # ex: A.B+C.-D <=> (A) AND (B OR C) AND (NOT D) <=> [ [(A,True)], [(B,True),(C,True)], [(D, False)] ]
+    # ex: 1.2+3.-4 <=> (1) AND (2 OR 3) AND (NOT 4) <=> [ [(1,True)], [(2,True),(3,True)], [(4, False)] ]
     search_list = searched_expression.split('.')
     searched_terms = []
     for searched_term in search_list:
