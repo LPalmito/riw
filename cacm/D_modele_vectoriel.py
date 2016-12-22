@@ -27,13 +27,11 @@ def modele_vectoriel(term_termID, doc_docID, termID_docID):
 
 def tf_idf(termID, docID, termID_docID, N_docs):
     """Return the tf_idf"""
-    tf = 0
-    df = 0
-    idf = 0
-    for tID, dID in termID_docID:
-        if tID == termID:
-            df += 1
-            if (tID, dID) == (termID, docID):
+    tf, df, idf = 0, 0, 0
+    if hasattr(termID_docID, str(termID)):
+        df = len(termID_docID[termID])
+        for dID in termID_docID[termID]:
+            if dID == docID:
                 tf += 1
     if df != 0:
         idf = math.log(N_docs / df, 10)
@@ -42,14 +40,11 @@ def tf_idf(termID, docID, termID_docID, N_docs):
 
 def n_tf_idf(termID, docID, termID_docID, N_docs):
     """Return the normalized tf_idf"""
-    tf = 0
-    df = 0
-    n_tf = 0
-    idf = 0
-    for tID, dID in termID_docID:
-        if tID == termID:
-            df += 1
-            if (tID, dID) == (termID, docID):
+    tf, df, idf, n_tf = 0, 0, 0, 0
+    if hasattr(termID_docID, termID):
+        df = len(termID_docID[termID])
+        for doc in termID_docID[termID]:
+            if doc == docID:
                 tf += 1
     if df != 0:
         idf = math.log(N_docs / df, 10)
@@ -57,7 +52,7 @@ def n_tf_idf(termID, docID, termID_docID, N_docs):
         n_tf = 1 + math.log(tf(termID, docID, termID_docID), 10)
     return n_tf*idf
 
-
+# TODO: Adapt that method for termID_docID as a dict
 def n_freq(termID, docID, termID_docID, N_terms):
     """Return the normalized frequence"""
     num_tf = 0
@@ -87,7 +82,6 @@ def cos_sim(docID, termID_docID, tID_qID, N_terms, N_docs, method):
     # 1 <=> tf_idf | 2 <=> n_tf_idf | 3 <=> n_freq
     if method in [1, 2, 3]:
         for t_ID in range(N_terms):
-            print("Computing dimension: ", t_ID, "/", N_terms)
             if method == 1:
                 w_query_tID = tf_idf(t_ID, -1, tID_qID, N_docs)
                 w_doc_tID = tf_idf(t_ID, docID, termID_docID, N_docs)

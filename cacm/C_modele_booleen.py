@@ -29,6 +29,7 @@ def modele_booleen(term_termID, doc_docID, termID_docID):
     print("- - - - -")
 
 
+# TODO: Something broken since termID_docID has been changed into a dict...
 def search_term_in_corpus(searched_term, term_termID, termID_docID):
     """Return the list of docIDs where the search term is"""
     if searched_term in term_termID:
@@ -36,9 +37,9 @@ def search_term_in_corpus(searched_term, term_termID, termID_docID):
         searched_termID = term_termID[searched_term]
         # Retrieve the corresponding docIDs
         searched_docIDs = []
-        for termID, docID in termID_docID:
+        for termID, docIDs in termID_docID.items():
             if termID == searched_termID:
-                searched_docIDs.append(docID)
+                searched_docIDs.extend(docIDs)
         return searched_docIDs
     else:
         # If the searched term is not in the corpus
