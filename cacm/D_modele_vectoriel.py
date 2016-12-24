@@ -11,56 +11,69 @@ def modele_vectoriel(term_termID, doc_docID, termID_docID):
           "3/ fréquence normalisée\n"))
     query = input("Entrez votre recherche ici : ")
     tID_qID = termID_queryID(query, term_termID)
+    k = 0
+    w_query, s_query = get_w_query(tID_qID, len(doc_docID), len(term_termID), m)
     for dID in range(len(doc_docID)):
-        print("Computing cos for ", dID, "...")
-        docID_cos_sim.append((dID, cos_sim(dID, termID_docID, tID_qID, len(term_termID), len(doc_docID), m)))
+        if dID*100//len(doc_docID) >= k:
+            print("Calculs en cours...", k, "%")
+            k += 10
+        docID_cos_sim.append((dID, cos_sim(dID, termID_docID, len(term_termID), len(doc_docID), m, w_query, s_query)))
+    print("Calculs en cours...", 100, "%")
     docID_cos_sim.sort(key=lambda dID_cos: dID_cos[1], reverse=True)
     # Display properly the results
-    print("Voici les documents triés par ordre de pertinence : ")
+    to_print = []
     for dID, c in docID_cos_sim:
-        print("- - - - -")
-        print("Similarité : ", c)
-        print("ID : ", dID)
-        print("Contenu : ", docID_to_docs(dID, doc_docID))
+        if c != 0:
+            to_print.append((dID, c))
+    if len(to_print) != 0:
+        print("Voici les documents triés par ordre de pertinence (similarités nulles exceptées) : ")
+        for dID, c in to_print:
+            print("- - - - -")
+            print("Similarité : ", c)
+            print("ID : ", dID)
+            print("Contenu : ", docID_to_docs(dID, doc_docID))
+    else:
+        print("Il n'y a aucun document présent dans le corpus correspondant à votre recherche.")
     print("- - - - -")
 
 
 def tf_idf(termID, docID, termID_docID, N_docs):
     """Return the tf_idf"""
     tf, df, idf = 0, 0, 0
-    if hasattr(termID_docID, str(termID)):
+    if termID in termID_docID.keys():
         df = len(termID_docID[termID])
         for dID in termID_docID[termID]:
             if dID == docID:
                 tf += 1
     if df != 0:
         idf = math.log(N_docs / df, 10)
+    if docID == -1:
+        print("termID: ", termID, "tf: ", tf, "idf: ", idf)
     return tf*idf
 
 
 def n_tf_idf(termID, docID, termID_docID, N_docs):
     """Return the normalized tf_idf"""
     tf, df, idf, n_tf = 0, 0, 0, 0
-    if hasattr(termID_docID, termID):
+    if termID in termID_docID.keys():
         df = len(termID_docID[termID])
-        for doc in termID_docID[termID]:
-            if doc == docID:
-                tf += 1
+        if docID in termID_docID[termID]:
+            tf += 1
     if df != 0:
         idf = math.log(N_docs / df, 10)
     if tf != 0:
-        n_tf = 1 + math.log(tf(termID, docID, termID_docID), 10)
+        n_tf = 1 + math.log(tf, 10)
     return n_tf*idf
 
-# TODO: Adapt that method for termID_docID as a dict
+
 def n_freq(termID, docID, termID_docID, N_terms):
     """Return the normalized frequence"""
     num_tf = 0
     max_tf = 0
     for t_ID in range(N_terms):
         tf = 0
-        for tID, dID in termID_docID:
-            if (tID, dID) == (t_ID, docID):
+        if t_ID in termID_docID.keys():
+            if docID in termID_docID[t_ID]:
                 tf += 1
                 if t_ID == termID:
                     num_tf += 1
@@ -72,8 +85,7 @@ def n_freq(termID, docID, termID_docID, N_terms):
         return num_tf/max_tf
 
 
-# TODO: How to optimize the code here?
-def cos_sim(docID, termID_docID, tID_qID, N_terms, N_docs, method):
+def cos_sim(docID, termID_docID, N_terms, N_docs, method, w_query, s_query):
     """Return the cos similarity"""
     # Create the vectors for the query and the doc according to the chosen method
     num = 0
@@ -83,22 +95,16 @@ def cos_sim(docID, termID_docID, tID_qID, N_terms, N_docs, method):
     if method in [1, 2, 3]:
         for t_ID in range(N_terms):
             if method == 1:
-                w_query_tID = tf_idf(t_ID, -1, tID_qID, N_docs)
                 w_doc_tID = tf_idf(t_ID, docID, termID_docID, N_docs)
-                num += w_query_tID*w_doc_tID
-                s_query += w_query_tID**2
+                num += w_query[t_ID]*w_doc_tID
                 s_doc += w_doc_tID**2
             elif method == 2:
-                w_query_tID = n_tf_idf(t_ID, -1, tID_qID, N_docs)
                 w_doc_tID = n_tf_idf(t_ID, docID, termID_docID, N_docs)
-                num += w_query_tID * w_doc_tID
-                s_query += w_query_tID ** 2
+                num += w_query[t_ID] * w_doc_tID
                 s_doc += w_doc_tID ** 2
             elif method == 3:
-                w_query_tID = n_freq(t_ID, -1, tID_qID, N_docs)
                 w_doc_tID = n_freq(t_ID, docID, termID_docID, N_docs)
-                num += w_query_tID * w_doc_tID
-                s_query += w_query_tID ** 2
+                num += w_query[t_ID] * w_doc_tID
                 s_doc += w_doc_tID ** 2
     else:
         print("La méthode de pondération que vous souhaitez utiliser n'existe pas ou n'a pas été implémentée.")
@@ -108,11 +114,26 @@ def cos_sim(docID, termID_docID, tID_qID, N_terms, N_docs, method):
         return num/(s_doc**0.5*s_query**0.5)
 
 
+def get_w_query(tID_qID, N_docs, N_terms, method):
+    w_query, s_query = [], 0
+    for t_ID in range(N_terms):
+        if method == 1:
+            w_query.append(tf_idf(t_ID, -1, tID_qID, N_docs))
+            s_query += w_query[t_ID] ** 2
+        elif method == 2:
+            w_query.append(n_tf_idf(t_ID, -1, tID_qID, N_docs))
+            s_query += w_query[t_ID] ** 2
+        elif method == 3:
+            w_query.append(n_freq(t_ID, -1, tID_qID, N_docs))
+            s_query += w_query[t_ID] ** 2
+    return w_query, s_query
+
+
 def termID_queryID(query, term_termID):
     """Return the termID_queryID for the query"""
     q_tokens = list(set([x.upper() for x in query.split()]))
-    tID_qID = []
+    tID_qID = {}
     for q_token in q_tokens:
         if q_token in term_termID.keys():
-            tID_qID.append((term_termID[q_token], -1))
+            tID_qID[term_termID[q_token]] = [-1]
     return tID_qID

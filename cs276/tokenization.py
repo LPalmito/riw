@@ -21,7 +21,7 @@ def get_cs276_tokens():
 
     # Get all words of the files in one unique string
     all_words = ''
-    # TODO expand the function to all folders
+    # TODO: expand the function to all folders
     for folder in folders[0]:
         files = os.listdir(os.path.join(master_path, folder))
         path = os.path.join(master_path, folder)

@@ -15,7 +15,7 @@ def modele_booleen(term_termID, doc_docID, termID_docID):
     print("- - - - -")
     # Take user input for a normal conjunctive expression
     searched_expression = input("Entrez une expression sous forme normale conjonctive comme dans l'exemple suivant :\n"
-                                "ex: 1.2+3.4 = (1) AND (2 OR 3) AND (4)\n").upper()
+                                "ex: 1.2+3.-4 = (1) AND (2 OR 3) AND (NOT 4)\n").upper()
     searched_docIDs_2 = search_expression_in_corpus(searched_expression, term_termID, termID_docID, len(doc_docID))
     # Display properly the results
     if len(searched_docIDs_2) == 0:
@@ -29,7 +29,6 @@ def modele_booleen(term_termID, doc_docID, termID_docID):
     print("- - - - -")
 
 
-# TODO: Something broken since termID_docID has been changed into a dict...
 def search_term_in_corpus(searched_term, term_termID, termID_docID):
     """Return the list of docIDs where the search term is"""
     if searched_term in term_termID:
@@ -73,6 +72,7 @@ def search_expression_in_corpus(searched_expression, term_termID, termID_docID, 
                 res.extend(not_r)
         res = list(set(res))
         result_list.append(res)
+    # TODO: Fix the problem here
     # Combine the results of 'result_list'
     result = result_list[0]
     for i, r in enumerate(result_list[0]):
