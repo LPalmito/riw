@@ -17,12 +17,12 @@ if __name__ == '__main__':
     print("\n------------------------------------------------------------")
     print("| 2.1 / A Traitements linguistiques                         |")
     print("------------------------------------------------------------")
-    traitements_linguistiques(useful_tokens)
+    unique_useful_tokens = traitements_linguistiques(useful_tokens)
 
     print("\n------------------------------------------------------------")
     print("| 2.2 / B Indexation                                        |")
     print("------------------------------------------------------------")
-    term_termID, doc_docID, termID_docID = indexation(useful_tokens, docs)
+    term_termID, doc_docID, termID_docID = indexation(unique_useful_tokens, docs)
 
     print("\n------------------------------------------------------------")
     print("| 2.2.1 / C Modèle de recherche booléen                     |")
