@@ -1,6 +1,6 @@
-from cs276.tokenization import *
+from tokenization import *
 
-from cs276.A_traitements_linguistiques import *
+from A_traitements_linguistiques import *
 
 if __name__ == '__main__':
 

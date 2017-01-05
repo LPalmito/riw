@@ -18,7 +18,15 @@ def indexation(useful_tokens, docs):
                 termID_docID[term_termID[word]] = [docID]
             else:
                 termID_docID[term_termID[word]].append(docID)
+    # Create dic : keys = docID, values = termID of terms in the doc
+    docID_termID = {}
+    for doc, docID in doc_docID:
+        docID_termID[docID] = []
+        for word in doc:
+            if term_termID[word] not in docID_termID[docID]:
+                docID_termID[docID].append(term_termID[word])
+
     end = time.time()
     duration = (end-start)*1000
     print("Indexation effectuée en", duration, "ms.")
-    return term_termID, doc_docID, termID_docID
+    return term_termID, doc_docID, termID_docID, docID_termID

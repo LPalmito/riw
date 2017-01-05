@@ -2,7 +2,7 @@ import math
 from cacm.C_modele_booleen import *
 
 
-def modele_vectoriel(term_termID, doc_docID, termID_docID):
+def modele_vectoriel(term_termID, doc_docID, termID_docID, docID_termID):
     # Take user input and calculate the query-related vertices
     docID_cos_sim = []
     m = int(input("Choisissez votre méthode de pondération entre les 3 suivantes en tapant son numéro: \n"
@@ -19,7 +19,7 @@ def modele_vectoriel(term_termID, doc_docID, termID_docID):
         if dID*100//len(doc_docID) >= k:
             print("Calcul des similarités en cours...", k, "%")
             k += 10
-        docID_cos_sim.append((dID, cos_sim(dID, termID_docID, len(term_termID), len(doc_docID), m, w_query, s_query)))
+        docID_cos_sim.append((dID, cos_sim(dID, termID_docID,docID_termID, len(term_termID), len(doc_docID), m, w_query, s_query)))
     print("Calculs en cours...", 100, "%")
     docID_cos_sim.sort(key=lambda dID_cos: dID_cos[1], reverse=True)
     # Display properly the results
@@ -83,14 +83,13 @@ def n_freq(termID, docID, termID_docID, N_terms):
         return num_tf/max_tf
 
 
-def cos_sim(docID, termID_docID, N_terms, N_docs, method, w_query, s_query):
+def cos_sim(docID, termID_docID, docID_termID, N_terms, N_docs, method, w_query, s_query):
     """Return the cos similarity"""
     # Create the vectors for the query and the doc according to the chosen method
     num, s_doc = 0, 0
     # 1 <=> tf_idf | 2 <=> n_tf_idf | 3 <=> n_freq
     if method in [1, 2, 3]:
-        # TODO: Replace N_terms in order to iterate over the terms of the doc only
-        for t_ID in range(N_terms):
+        for t_ID in docID_termID[docID]:
             if method == 1:
                 w_doc_tID = tf_idf(t_ID, docID, termID_docID, N_docs)
                 num += w_query[t_ID]*w_doc_tID
@@ -132,6 +131,7 @@ def update_termID_docID(query, termID_docID, term_termID):
     q_tokens = list(set([x.upper() for x in query.split()]))
     tID_dID = termID_docID
     for q_token in q_tokens:
+        # TODO What about dealing with writing mistakes?
         if q_token in term_termID.keys():
             tID_dID[term_termID[q_token]].append(-1)
     return tID_dID

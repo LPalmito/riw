@@ -22,17 +22,17 @@ if __name__ == '__main__':
     print("\n------------------------------------------------------------")
     print("| 2.2 / B Indexation                                        |")
     print("------------------------------------------------------------")
-    term_termID, doc_docID, termID_docID = indexation(unique_useful_tokens, docs)
+    term_termID, doc_docID, termID_docID, docID_termID = indexation(unique_useful_tokens, docs)
 
     print("\n------------------------------------------------------------")
     print("| 2.2.1 / C Modèle de recherche booléen                     |")
     print("------------------------------------------------------------")
     modele_booleen(term_termID, doc_docID, termID_docID)
 
-    # print("\n------------------------------------------------------------")
-    # print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
-    # print("------------------------------------------------------------")
-    # modele_vectoriel(term_termID, doc_docID, termID_docID)
+    print("\n------------------------------------------------------------")
+    print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
+    print("------------------------------------------------------------")
+    modele_vectoriel(term_termID, doc_docID, termID_docID, docID_termID)
 
     # Ferme cacm.all
     cacm.close()
