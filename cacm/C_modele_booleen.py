@@ -1,7 +1,7 @@
 import time
 
 
-def modele_booleen(term_termID, doc_docID, termID_docID):
+def modele_booleen(term_termID, docID_doc, termID_docID):
     """Print the results of a single-word search and a CNF search"""
     # Take user input for a single word as search
     searched_term = input("Entrez un mot à rechercher dans les documents : ").upper()
@@ -18,13 +18,13 @@ def modele_booleen(term_termID, doc_docID, termID_docID):
         for s_dID in searched_docIDs_1:
             print("- - - - -")
             print("ID : ", s_dID)
-            print("Contenu : ", docID_to_docs(s_dID, doc_docID))
+            print("Contenu : ", docID_doc[s_dID])
     print("- - - - -")
     # Take user input for a normal conjunctive expression
     searched_expression = input("Entrez une expression sous forme normale conjonctive comme dans l'exemple suivant :\n"
                                 "ex: 1.2+3.-4 = (1) AND (2 OR 3) AND (NOT 4)\n").upper()
     start_2 = time.time()
-    searched_docIDs_2 = search_expression_in_corpus(searched_expression, term_termID, termID_docID, len(doc_docID))
+    searched_docIDs_2 = search_expression_in_corpus(searched_expression, term_termID, termID_docID, len(docID_doc))
     end_2 = time.time()
     duration_2 = (end_2-start_2)*1000
     print("Temps de réponse :", duration_2, "ms.")
@@ -36,7 +36,7 @@ def modele_booleen(term_termID, doc_docID, termID_docID):
         for s_dID in searched_docIDs_2:
             print("- - - - -")
             print("ID : ", s_dID)
-            print("Contenu : ", docID_to_docs(s_dID, doc_docID))
+            print("Contenu : ", docID_doc[s_dID])
     print("- - - - -")
 
 
@@ -94,10 +94,3 @@ def search_expression_in_corpus(searched_expression, term_termID, termID_docID, 
             result.append(result_0[0])
         result_0 = result_0[1:]
     return result
-
-
-def docID_to_docs(docID, doc_docID):
-    """Return the doc corresponding to the given docID"""
-    for d, dID in doc_docID:
-        if docID == dID:
-            return d
