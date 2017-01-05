@@ -29,10 +29,10 @@ if __name__ == '__main__':
     print("------------------------------------------------------------")
     modele_booleen(term_termID, doc_docID, termID_docID)
 
-    print("\n------------------------------------------------------------")
-    print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
-    print("------------------------------------------------------------")
-    modele_vectoriel(term_termID, doc_docID, termID_docID)
+    # print("\n------------------------------------------------------------")
+    # print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
+    # print("------------------------------------------------------------")
+    # modele_vectoriel(term_termID, doc_docID, termID_docID)
 
     # Ferme cacm.all
     cacm.close()

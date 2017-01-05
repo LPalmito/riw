@@ -7,8 +7,8 @@ def modele_booleen(term_termID, doc_docID, termID_docID):
     searched_term = input("Entrez un mot à rechercher dans les documents : ").upper()
     start_1 = time.time()
     searched_docIDs_1 = search_term_in_corpus(searched_term, term_termID, termID_docID)
-    start_1 = time.time()
-    duration_1 = (start_1-start_1)*1000
+    end_1 = time.time()
+    duration_1 = (end_1-start_1)*1000
     print("Temps de réponse :", duration_1, "ms.")
     # Display properly the results
     if len(searched_docIDs_1) == 0:
@@ -83,13 +83,16 @@ def search_expression_in_corpus(searched_expression, term_termID, termID_docID, 
                 res.extend(not_r)
         res = list(set(res))
         result_list.append(res)
-    # TODO: Fix the problem here
     # Combine the results of 'result_list'
-    result = result_list[0]
-    for i, r in enumerate(result_list[0]):
-        for sub_res in result_list[1:]:
-            if r not in sub_res:
-                del result[i]
+    result_0, result = result_list[0], []
+    while len(result_0) > 0:
+        in_every_sub_result = True
+        for sub_res in result_list:
+            if result_0[0] not in sub_res:
+                in_every_sub_result = False
+        if in_every_sub_result:
+            result.append(result_0[0])
+        result_0 = result_0[1:]
     return result
 
 

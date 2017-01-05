@@ -9,7 +9,7 @@ def prepare_cacm(text):
     docs = render_documents(tokens)
     docs = filter_documents(docs)
     # TODO: Delete it, only for tests purposes
-    # docs = docs[:4]
+    docs = docs[:49]
     # Keep only the tokens in useful attributes
     useful_tokens = []
     for doc in docs:
