@@ -51,10 +51,16 @@ def render_documents(text):
 
 def filter_documents(docs):
     """Filter the docs by keeping only words and deleting all the stopwords"""
-    # TODO: Did you use the common-words list as well?
+    # Prepare the stop word set
+    common_words = open('./Resources/CACM/common_words')
+    common_text = common_words.read()
+    common_tokens = nltk.word_tokenize(common_text)
     stop_word_list = nltk.corpus.stopwords.words('english')
+    stop_word_list.extend(common_tokens)
     stop_word_list = [word.upper() for word in stop_word_list]
     stop_word_set = set(stop_word_list)
+    common_words.close()
+    # Filter every token
     for doc in docs:
         for k, texts in doc.items():
             filtered_doc = []
