@@ -4,6 +4,7 @@ from cacm.A_traitements_linguistiques import *
 from cacm.B_indexation import *
 from cacm.C_modele_booleen import *
 from cacm.D_modele_vectoriel import *
+from cacm.E_mesure_pertinence import *
 
 if __name__ == '__main__':
 
@@ -12,7 +13,8 @@ if __name__ == '__main__':
     text = cacm.read()
 
     # Prépare le corpus cacm
-    useful_tokens, docs = prepare_cacm(text)
+    docs = get_docs(text)
+    useful_tokens = get_useful_tokens(docs)
 
     print("\n------------------------------------------------------------")
     print("| 2.1 / A Traitements linguistiques                         |")
@@ -33,6 +35,11 @@ if __name__ == '__main__':
     print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
     print("------------------------------------------------------------")
     modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID)
+
+    print("\n------------------------------------------------------------")
+    print("| 2.3 / E Mesures de pertinence                            |")
+    print("------------------------------------------------------------")
+    mesure_pertinence()
 
     # Ferme cacm.all
     cacm.close()

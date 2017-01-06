@@ -1,5 +1,4 @@
 import time
-import pprint
 
 
 def indexation(useful_tokens, docs):

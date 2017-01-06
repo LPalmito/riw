@@ -2,30 +2,34 @@ import nltk
 import regex
 
 
-def prepare_cacm(text):
+def get_docs(text):
     """Return a list of the useful tokens"""
     # Tokenize the text, render it in docs and filter it
-    tokens = nltk.word_tokenize(text.upper())
-    docs = render_documents(tokens)
+    docs = render_documents(text)
     docs = filter_documents(docs)
     # TODO: Delete it, only for tests purposes
-    # docs = docs[:49]
-    # Keep only the tokens in useful attributes
+    docs = docs[:49]
+    return docs
+
+
+def get_useful_tokens(docs):
+    """Return a list of the useful tokens"""
     useful_tokens = []
     for doc in docs:
         # TODO Query 2 concerns Authors, what about adding them here?
         useful_tokens.extend(doc['.T'])
         useful_tokens.extend(doc['.W'])
         useful_tokens.extend(doc['.K'])
-    return useful_tokens, docs
+    return useful_tokens
 
 
-def render_documents(tokens):
+def render_documents(text):
     """Return a list of docs created from the tokens"""
     # Initialisations
+    tokens = nltk.word_tokenize(text.upper())
+    print(tokens)
     markers = ['.I', '.T', '.W', '.B', '.A', '.N', '.X', '.K']
-    current_marker = '.I'
-    current_doc = {}
+    current_marker, current_doc = '.I', {}
     result = []
     # Prepare the result
     for token in tokens:
