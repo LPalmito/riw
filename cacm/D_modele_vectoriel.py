@@ -15,7 +15,7 @@ def modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID):
     w_query, s_query = get_w_query(tID_dID, len(docID_doc), len(term_termID), m)
     # Compute the corpus-related cosinus and display a loading percentage
     for dID in range(len(docID_doc)):
-        docID_cos_sim.append((dID, cos_sim(dID, termID_docID, docID_termID, len(docID_doc), m, w_query, s_query)))
+        docID_cos_sim.append((dID, cos_sim(dID, termID_docID, docID_termID, len(docID_doc), len(term_termID), m, w_query, s_query)))
     print("Calculs en cours...", 100, "%")
     docID_cos_sim.sort(key=lambda dID_cos: dID_cos[1], reverse=True)
     # Display properly the results
@@ -79,7 +79,7 @@ def n_freq(termID, docID, termID_docID, N_terms):
         return num_tf/max_tf
 
 
-def cos_sim(docID, termID_docID, docID_termID, N_docs, method, w_query, s_query):
+def cos_sim(docID, termID_docID, docID_termID, N_docs, N_terms, method, w_query, s_query):
     """Return the cos similarity"""
     # Create the vectors for the query and the doc according to the chosen method
     num, s_doc = 0, 0
