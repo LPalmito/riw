@@ -2,7 +2,7 @@ import math
 from cacm.C_modele_booleen import *
 
 
-def modele_vectoriel(term_termID, doc_docID, termID_docID, docID_termID):
+def modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID):
     # Take user input and calculate the query-related vertices
     docID_cos_sim = []
     m = int(input("Choisissez votre méthode de pondération entre les 3 suivantes en tapant son numéro: \n"
@@ -12,14 +12,10 @@ def modele_vectoriel(term_termID, doc_docID, termID_docID, docID_termID):
     query = input("Entrez votre recherche ici : ")
     start = time.time()
     tID_dID = update_termID_docID(query, termID_docID, term_termID)
-    w_query, s_query = get_w_query(tID_dID, len(doc_docID), len(term_termID), m)
+    w_query, s_query = get_w_query(tID_dID, len(docID_doc), len(term_termID), m)
     # Compute the corpus-related cosinus and display a loading percentage
-    k = 0
-    for dID in range(len(doc_docID)):
-        if dID*100//len(doc_docID) >= k:
-            print("Calcul des similarités en cours...", k, "%")
-            k += 10
-        docID_cos_sim.append((dID, cos_sim(dID, termID_docID,docID_termID, len(term_termID), len(doc_docID), m, w_query, s_query)))
+    for dID in range(len(docID_doc)):
+        docID_cos_sim.append((dID, cos_sim(dID, termID_docID, docID_termID, len(docID_doc), m, w_query, s_query)))
     print("Calculs en cours...", 100, "%")
     docID_cos_sim.sort(key=lambda dID_cos: dID_cos[1], reverse=True)
     # Display properly the results
@@ -33,7 +29,7 @@ def modele_vectoriel(term_termID, doc_docID, termID_docID, docID_termID):
             print("- - - - -")
             print("Similarité : ", c)
             print("ID : ", dID)
-            print("Contenu : ", docID_to_docs(dID, doc_docID))
+            print("Contenu : ", docID_doc[dID])
     else:
         print("Il n'y a aucun document présent dans le corpus correspondant à votre recherche.")
     print("- - - - -")
@@ -83,7 +79,7 @@ def n_freq(termID, docID, termID_docID, N_terms):
         return num_tf/max_tf
 
 
-def cos_sim(docID, termID_docID, docID_termID, N_terms, N_docs, method, w_query, s_query):
+def cos_sim(docID, termID_docID, docID_termID, N_docs, method, w_query, s_query):
     """Return the cos similarity"""
     # Create the vectors for the query and the doc according to the chosen method
     num, s_doc = 0, 0
@@ -132,6 +128,7 @@ def update_termID_docID(query, termID_docID, term_termID):
     tID_dID = termID_docID
     for q_token in q_tokens:
         # TODO What about dealing with writing mistakes?
+        # TODO What about tokenizing the query?
         if q_token in term_termID.keys():
             tID_dID[term_termID[q_token]].append(-1)
     return tID_dID
