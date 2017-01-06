@@ -99,7 +99,7 @@ def cos_sim(docID, termID_docID, docID_termID, N_terms, N_docs, method, w_query,
                 num += w_query[t_ID] * w_doc_tID
                 s_doc += w_doc_tID ** 2
             elif method == 3:
-                w_doc_tID = n_freq(t_ID, docID, termID_docID, N_docs)
+                w_doc_tID = n_freq(t_ID, docID, termID_docID, N_terms)
                 num += w_query[t_ID] * w_doc_tID
                 s_doc += w_doc_tID ** 2
     else:
@@ -121,7 +121,7 @@ def get_w_query(tID_dID, N_docs, N_terms, method):
             w_query.append(n_tf_idf(t_ID, -1, tID_dID, N_docs))
             s_query += w_query[t_ID] ** 2
         elif method == 3:
-            w_query.append(n_freq(t_ID, -1, tID_dID, N_docs))
+            w_query.append(n_freq(t_ID, -1, tID_dID, N_terms))
             s_query += w_query[t_ID] ** 2
     return w_query, s_query
 

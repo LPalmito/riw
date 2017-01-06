@@ -8,7 +8,7 @@ from cacm.D_modele_vectoriel import *
 if __name__ == '__main__':
 
     # Ouvre et lit le cacm.all
-    cacm = open('./Resources/CACM/cacm.all')
+    cacm = open('../Resources/CACM/cacm.all')
     text = cacm.read()
 
     # Prépare le corpus cacm
@@ -24,10 +24,10 @@ if __name__ == '__main__':
     print("------------------------------------------------------------")
     term_termID, doc_docID, termID_docID, docID_termID = indexation(unique_useful_tokens, docs)
 
-    print("\n------------------------------------------------------------")
-    print("| 2.2.1 / C Modèle de recherche booléen                     |")
-    print("------------------------------------------------------------")
-    modele_booleen(term_termID, doc_docID, termID_docID)
+    # print("\n------------------------------------------------------------")
+    # print("| 2.2.1 / C Modèle de recherche booléen                     |")
+    # print("------------------------------------------------------------")
+    # modele_booleen(term_termID, doc_docID, termID_docID)
 
     print("\n------------------------------------------------------------")
     print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
