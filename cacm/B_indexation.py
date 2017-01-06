@@ -12,6 +12,7 @@ def indexation(useful_tokens, docs):
     # Create the docID_doc
     docID_doc = {}
     for docID, doc in enumerate(docs):
+        # TODO add 1 to all the docID to match cacm.all classification
         docID_doc[docID] = doc['.T']+doc['.W']+doc['.K']
     # Create the termID_docID
     termID_docID = {}

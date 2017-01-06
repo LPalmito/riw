@@ -8,7 +8,7 @@ from cacm.D_modele_vectoriel import *
 if __name__ == '__main__':
 
     # Ouvre et lit le cacm.all
-    cacm = open('./Resources/CACM/cacm.all')
+    cacm = open('../Resources/CACM/cacm.all')
     text = cacm.read()
 
     # Prépare le corpus cacm

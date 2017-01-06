@@ -9,10 +9,11 @@ def prepare_cacm(text):
     docs = render_documents(tokens)
     docs = filter_documents(docs)
     # TODO: Delete it, only for tests purposes
-    docs = docs[:49]
+    # docs = docs[:49]
     # Keep only the tokens in useful attributes
     useful_tokens = []
     for doc in docs:
+        # TODO Query 2 concerns Authors, what about adding them here?
         useful_tokens.extend(doc['.T'])
         useful_tokens.extend(doc['.W'])
         useful_tokens.extend(doc['.K'])
@@ -47,6 +48,7 @@ def render_documents(tokens):
 
 def filter_documents(docs):
     """Filter the docs by keeping only words and deleting all the stopwords"""
+    # TODO did you use the common-words list as well?
     stop_word_list = nltk.corpus.stopwords.words('english')
     stop_word_list = [word.upper() for word in stop_word_list]
     stop_word_set = set(stop_word_list)
