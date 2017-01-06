@@ -3,6 +3,7 @@ from cacm.C_modele_booleen import *
 
 
 def modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID):
+
     # Take user input and calculate the query-related vertices
     docID_cos_sim = []
     m = int(input("Choisissez votre méthode de pondération entre les 3 suivantes en tapant son numéro: \n"
@@ -13,11 +14,13 @@ def modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID):
     start = time.time()
     tID_dID = update_termID_docID(query, termID_docID, term_termID)
     w_query, s_query = get_w_query(tID_dID, len(docID_doc), len(term_termID), m)
+
     # Compute the corpus-related cosinus and display a loading percentage
     for dID in range(len(docID_doc)):
         docID_cos_sim.append((dID, cos_sim(dID, termID_docID, docID_termID, len(docID_doc), len(term_termID), m, w_query, s_query)))
     print("Calculs en cours...", 100, "%")
     docID_cos_sim.sort(key=lambda dID_cos: dID_cos[1], reverse=True)
+
     # Display properly the results
     to_print = [(dID, c) for dID, c in docID_cos_sim if c != 0]
     end = time.time()

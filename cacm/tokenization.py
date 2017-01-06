@@ -16,7 +16,7 @@ def get_useful_tokens(docs):
     """Return a list of the useful tokens"""
     useful_tokens = []
     for doc in docs:
-        # TODO Query 2 concerns Authors, what about adding them here?
+        # TODO: Query 2 concerns Authors, what about adding them here?
         useful_tokens.extend(doc['.T'])
         useful_tokens.extend(doc['.W'])
         useful_tokens.extend(doc['.K'])
@@ -26,8 +26,7 @@ def get_useful_tokens(docs):
 def render_documents(text):
     """Return a list of docs created from the tokens"""
     # Initialisations
-    tokens = nltk.word_tokenize(text.upper())
-    print(tokens)
+    tokens = nltk.word_tokenize(text)
     markers = ['.I', '.T', '.W', '.B', '.A', '.N', '.X', '.K']
     current_marker, current_doc = '.I', {}
     result = []
@@ -52,7 +51,7 @@ def render_documents(text):
 
 def filter_documents(docs):
     """Filter the docs by keeping only words and deleting all the stopwords"""
-    # TODO did you use the common-words list as well?
+    # TODO: Did you use the common-words list as well?
     stop_word_list = nltk.corpus.stopwords.words('english')
     stop_word_list = [word.upper() for word in stop_word_list]
     stop_word_set = set(stop_word_list)
@@ -60,7 +59,7 @@ def filter_documents(docs):
         for k, texts in doc.items():
             filtered_doc = []
             for text in texts:
-                match = regex.match('[A-Z]+', text)
+                match = regex.match('[A-Z]+', text.upper())
                 if match is not None and match.group() not in stop_word_set:
                     filtered_doc.append(match.group())
             doc[k] = filtered_doc
