@@ -5,37 +5,13 @@ from cacm.C_modele_booleen import *
 def modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID):
 
     # Take user input and calculate the query-related vertices
-    docID_cos_sim = []
     m = int(input("Choisissez votre méthode de pondération entre les 3 suivantes en tapant son numéro: \n"
           "1/ tf-idf \n"
           "2/ tf-idf normalisé\n"
           "3/ fréquence normalisée\n"))
     query = input("Entrez votre recherche ici : ")
-    start = time.time()
-    tID_dID = update_termID_docID(query, termID_docID, term_termID)
-    w_query, s_query = get_w_query(tID_dID, len(docID_doc), len(term_termID), m)
-
-    # Compute the corpus-related cosinus and display a loading percentage
-    for dID in range(len(docID_doc)):
-        docID_cos_sim.append((dID, cos_sim(dID, termID_docID, docID_termID, len(docID_doc), len(term_termID), m, w_query, s_query)))
-    print("Calculs en cours...", 100, "%")
-    docID_cos_sim.sort(key=lambda dID_cos: dID_cos[1], reverse=True)
-
-    # Display properly the results
-    to_print = [(dID, c) for dID, c in docID_cos_sim if c != 0]
-    end = time.time()
-    duration = end-start
-    print("Temps de réponse :", duration, "s.")
-    if len(to_print) != 0:
-        print("Voici les documents triés par ordre de pertinence (similarités nulles exclues) : ")
-        for dID, c in to_print:
-            print("- - - - -")
-            print("Similarité : ", c)
-            print("ID : ", dID)
-            print("Contenu : ", docID_doc[dID])
-    else:
-        print("Il n'y a aucun document présent dans le corpus correspondant à votre recherche.")
-    print("- - - - -")
+    docID_cos_sim, duration = vectorial_search(query, term_termID, docID_doc, termID_docID, docID_termID, m)
+    print_results(docID_cos_sim, duration)
 
 
 def tf_idf(termID, docID, termID_docID, N_docs):
@@ -107,6 +83,38 @@ def cos_sim(docID, termID_docID, docID_termID, N_docs, N_terms, method, w_query,
         return 0
     else:
         return num/(s_doc**0.5*s_query**0.5)
+
+
+def vectorial_search(query, term_termID, docID_doc, termID_docID, docID_termID, m):
+    # Initialisations
+    start = time.time()
+    docID_cos_sim = []
+    # Compute the query-related cosinus
+    tID_dID = update_termID_docID(query, termID_docID, term_termID)
+    w_query, s_query = get_w_query(tID_dID, len(docID_doc), len(term_termID), m)
+    # Compute the corpus-related cosinus
+    for dID in range(len(docID_doc)):
+        docID_cos_sim.append(
+            (dID, cos_sim(dID, termID_docID, docID_termID, len(docID_doc), len(term_termID), m, w_query, s_query)))
+    docID_cos_sim.sort(key=lambda dID_cos: dID_cos[1], reverse=True)
+    end = time.time()
+    duration = end - start
+    return docID_cos_sim, duration
+
+
+def print_results(docID_cos_sim, duration):
+    to_print = [(dID, c) for dID, c in docID_cos_sim if c != 0]
+    print("Temps de réponse :", duration, "s.")
+    if len(to_print) != 0:
+        print("Voici les documents triés par ordre de pertinence (similarités nulles exclues) : ")
+        for dID, c in to_print:
+            print("- - - - -")
+            print("Similarité : ", c)
+            print("ID : ", dID)
+            # TODO: Add the keywords from Pampers's work here
+    else:
+        print("Il n'y a aucun document présent dans le corpus correspondant à votre recherche.")
+    print("- - - - -")
 
 
 def get_w_query(tID_dID, N_docs, N_terms, method):

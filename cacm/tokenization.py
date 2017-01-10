@@ -8,7 +8,7 @@ def get_docs(text):
     docs = render_documents(text)
     docs = filter_documents(docs)
     # TODO: Delete it, only for tests purposes
-    docs = docs[:49]
+    # docs = docs[:499]
     return docs
 
 
