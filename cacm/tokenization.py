@@ -1,15 +1,17 @@
 import nltk
 import regex
-
+import pprint
+import copy
 
 def get_docs(text):
     """Return a list of the useful tokens"""
     # Tokenize the text, render it in docs and filter it
-    docs = render_documents(text)
+    docs = list(render_documents(text))
+    docs_backup = copy.deepcopy(docs)
     docs = filter_documents(docs)
     # TODO: Delete it, only for tests purposes
     docs = docs[:49]
-    return docs
+    return docs, docs_backup
 
 
 def get_useful_tokens(docs):
@@ -30,12 +32,14 @@ def render_documents(text):
     markers = ['.I', '.T', '.W', '.B', '.A', '.N', '.X', '.K']
     current_marker, current_doc = '.I', {}
     result = []
+    # docs_backup = []
     # Prepare the result
     for token in tokens:
         # For each new .I, prepare a new doc and fill it
         if token == '.I':
             if current_doc != {}:
                 result.append(current_doc)
+                # docs_backup.append(current_doc)
             current_doc = {}
             for marker in markers:
                 current_doc[marker] = []
@@ -46,13 +50,14 @@ def render_documents(text):
         else:
             current_doc[current_marker].append(token)
     result.append(current_doc)
+    # docs_backup.append((current_doc))
     return result
 
 
 def filter_documents(docs):
     """Filter the docs by keeping only words and deleting all the stopwords"""
     # Prepare the stop word set
-    common_words = open('./Resources/CACM/common_words')
+    common_words = open('../Resources/CACM/common_words')
     common_text = common_words.read()
     common_tokens = nltk.word_tokenize(common_text)
     stop_word_list = nltk.corpus.stopwords.words('english')

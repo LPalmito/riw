@@ -9,11 +9,11 @@ from cacm.E_mesure_pertinence import *
 if __name__ == '__main__':
 
     # Ouvre et lit le cacm.all
-    cacm = open('./Resources/CACM/cacm.all')
+    cacm = open('../Resources/CACM/cacm.all')
     text = cacm.read()
 
     # Prépare le corpus cacm
-    docs = get_docs(text)
+    docs, docs_backup = get_docs(text)
     useful_tokens = get_useful_tokens(docs)
 
     print("\n------------------------------------------------------------")
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     print("\n------------------------------------------------------------")
     print("| 2.2.1 / C Modèle de recherche booléen                     |")
     print("------------------------------------------------------------")
-    modele_booleen(term_termID, docID_doc, termID_docID)
+    modele_booleen(term_termID, docID_doc, termID_docID, docs_backup)
 
     print("\n------------------------------------------------------------")
     print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
