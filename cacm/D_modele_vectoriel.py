@@ -39,17 +39,16 @@ def n_tf_idf(termID, docID, termID_docID, N_docs):
     return n_tf*idf
 
 
+# TODO: Optimize this method for the measures
 def n_freq(termID, docID, termID_docID, N_terms):
     """Return the normalized frequency"""
-    num_tf = 0
-    max_tf = 0
+    num_tf, max_tf = 0, 0
     for t_ID in range(N_terms):
         tf = 0
-        if t_ID in termID_docID.keys():
-            if docID in termID_docID[t_ID]:
-                tf += 1
-                if t_ID == termID:
-                    num_tf += 1
+        if docID in termID_docID[t_ID]:
+            tf += 1
+            if t_ID == termID:
+                num_tf += 1
         if tf > max_tf:
             max_tf = tf
     if max_tf == 0:

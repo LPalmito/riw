@@ -22,8 +22,8 @@ def mesure_pertinence(term_termID, docID_doc, termID_docID, docID_termID):
 
     # Compute the p and tp matrices
     for qID, query in queryID_query.items():
-        print(qID)
-        for m in range(3):
+        print('Calculs en cours...', qID, '/ 63')
+        for m in range(2):
             docID_cos_sim = vectorial_search(query, term_termID, docID_doc, termID_docID, docID_termID, m+1)[0]
             for docID, cos_sim in docID_cos_sim:
                 if cos_sim > 0:
@@ -33,17 +33,15 @@ def mesure_pertinence(term_termID, docID_doc, termID_docID, docID_termID):
 
     # Compute the P and R matrices
     for qID in queryID_query:
-        print(qID)
-        for m in range(3):
+        for m in range(2):
             if p[qID][m] != 0:
                 P[qID][m] = tp[qID][m] / p[qID][m]
             else:
-                P[qID][m] = 0
+                P[qID][m] = 1
             if t[qID] != 0:
                 R[qID][m] = tp[qID][m] / t[qID]
             else:
-                R[qID][m] = 0
-            print("m =", m, "P =", P[qID][m], "R =", R[qID][m])
+                R[qID][m] = 1
 
 # TODO: Use other notations to avoid the conflict P, R being matrices and integers
 

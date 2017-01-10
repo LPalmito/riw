@@ -3,6 +3,7 @@ import regex
 import pprint
 import copy
 
+
 def get_docs(text):
     """Return a list of the useful tokens"""
     # Tokenize the text, render it in docs and filter it
@@ -10,7 +11,7 @@ def get_docs(text):
     docs_backup = copy.deepcopy(docs)
     docs = filter_documents(docs)
     # TODO: Delete it, only for tests purposes
-    docs = docs[:49]
+    # docs = docs[:499]
     return docs, docs_backup
 
 
