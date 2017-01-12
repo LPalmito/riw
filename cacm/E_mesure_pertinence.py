@@ -1,6 +1,6 @@
-from cacm.tokenization import render_documents
+from riw.cacm.tokenization import render_documents
 import nltk
-from cacm.D_modele_vectoriel import vectorial_search
+from riw.cacm.D_modele_vectoriel import vectorial_search
 
 
 def mesure_pertinence(term_termID, docID_doc, termID_docID, docID_termID):
