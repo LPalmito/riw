@@ -28,6 +28,9 @@ def search():
     wrap_result_in_html(result, params)
     return render_template('result.html')
 
+@app.route('/monkey')
+def monkey():
+    return render_template('monkey.html')
 
 if __name__ == "__main__":
     app.run()
