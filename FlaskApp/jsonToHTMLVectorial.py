@@ -1,4 +1,4 @@
-def wrap_result_in_html(json, params):
+def wrap_result_in_html_vectorial(json, params):
     with open("../FlaskApp/templates/result.html", 'w') as result_html:
         result_html.truncate()
         wrapper = wrapper_header
@@ -7,7 +7,7 @@ def wrap_result_in_html(json, params):
         i = 0
         for key, document in json.items():
             if i < 10:
-                wrapper += """<div><h4>""" + document[0] + " – " + "ID du doc : " + str(key) + """</h4>""" \
+                wrapper += """<div><h4>""" + document[0] + " – " + "ID du doc : " + str(key) + " – " + "Similarité : " + str(document[3]) + """</h4>""" \
                            + """<div>""" + "<i>Date : " + document[1] + "</i></div>" + \
                            "<div>" + document[2][:140] + "..." + "</div></div>"
                 i += 1

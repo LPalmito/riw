@@ -40,5 +40,6 @@ def indexation(useful_tokens, docs):
     #     json.dump(docID_doc, doc)
     # with open("../FlaskApp/documents/term_termID.json", "w") as doc:
     #     json.dump(term_termID, doc)
-
+    # with open("../FlaskApp/documents/docID_termID.json", "w") as doc:
+    #     json.dump(docID_termID, doc)
     return term_termID, docID_doc, termID_docID, docID_termID

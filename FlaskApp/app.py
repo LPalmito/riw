@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request
 from cacm.F_Booleen_Front import *
+from cacm.G_Vectorial_Front import *
 from ast import literal_eval
-from FlaskApp.jsonToHTML import *
+from FlaskApp.jsonToHTMLBoolean import *
+from FlaskApp.jsonToHTMLVectorial import *
 app = Flask(__name__)
 
 
@@ -11,7 +13,7 @@ def main():
 
 
 @app.route('/boolean_search')
-def search():
+def boolean_search():
     params = request.args.get("search")
     params = params.upper()
     with open("../FlaskApp/documents/docID_doc.json", "r") as doc:
@@ -27,12 +29,12 @@ def search():
         termID_docID_string = doc.read()
         termID_docID = literal_eval(termID_docID_string)
     result = modele_booleen_front(term_termID, docID_doc, termID_docID, docs_backup, params)
-    wrap_result_in_html(result, params)
+    wrap_result_in_html_boolean(result, params)
     return render_template('result.html')
 
 
-@app.route('/vectorial_search')
-def search():
+@app.route('/vect_search')
+def vect_search():
     params = request.args.get("search")
     params = params.upper()
     with open("../FlaskApp/documents/docID_doc.json", "r") as doc:
@@ -47,8 +49,11 @@ def search():
     with open("../FlaskApp/documents/termID_docID.json", "r") as doc:
         termID_docID_string = doc.read()
         termID_docID = literal_eval(termID_docID_string)
-    result = modele_booleen_front(term_termID, docID_doc, termID_docID, docs_backup, params)
-    wrap_result_in_html(result, params)
+    with open("../FlaskApp/documents/docID_termID.json", "r") as doc:
+        docID_termID_string = doc.read()
+        docID_termID = literal_eval(docID_termID_string)
+    result = modele_vectoriel_front(term_termID, docID_doc, termID_docID, docID_termID, docs_backup, params)
+    wrap_result_in_html_vectorial(result, params)
     return render_template('result.html')
 
 

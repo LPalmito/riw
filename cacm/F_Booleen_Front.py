@@ -5,9 +5,7 @@ def modele_booleen_front(term_termID, docID_doc, termID_docID, docs_backup, sear
     """Print the results of a single-word search and a CNF search"""
     # Take user input for a single word as search
     searched_term = search
-    print(searched_term)
     searched_docIDs_1 = search_term_in_corpus(searched_term, term_termID, termID_docID)
-    print(searched_docIDs_1)
     # Display properly the results
     search_to_front = {}
     if len(searched_docIDs_1) == 0:
