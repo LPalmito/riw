@@ -69,7 +69,7 @@ def search_term_in_corpus(searched_term, term_termID, termID_docID):
         # Retrieve the corresponding docIDs
         searched_docIDs = []
         for termID, docIDs in termID_docID.items():
-            if termID == searched_termID:
+            if int(termID) == searched_termID:
                 searched_docIDs.extend(docIDs)
         return searched_docIDs
     else:

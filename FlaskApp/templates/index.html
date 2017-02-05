@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>RIW Project</title>
+    <!--<link rel="stylesheet" type="text/css" href="../static/styles/style.css">-->
+
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active">
+                        <form class="form-wrapper cf" action="/monkey" method="get">
+                            <button type="submit">Button to happiness</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">RIW Project</h3>
+        </div>
+
+        <div class="jumbotron">
+            <h1>Monkgle</h1>
+            <p class="lead"></p>
+            <form class="form-wrapper cf" method="get">
+                <input name="search" type="text" placeholder="Search here..." required>
+                <button type="submit" formaction="/boolean_search">Boolean Search</button>
+                <button type="submit" formaction="/vect_search">Vectorial Search</button>
+            </form>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; Yannick & Augustin</p>
+        </footer>
+
+    </div>
+</body>
+
+</html>
