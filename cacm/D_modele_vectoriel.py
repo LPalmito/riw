@@ -1,5 +1,5 @@
 import math
-from riw.cacm.C_modele_booleen import *
+from cacm.C_modele_booleen import *
 
 
 def modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID):

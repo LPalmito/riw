@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
-from riw.cacm.F_Booleen_Front import *
+from cacm.F_Booleen_Front import *
 from ast import literal_eval
+from FlaskApp.jsonToHTML import *
 app = Flask(__name__)
 
 @app.route("/")
@@ -9,7 +10,6 @@ def main():
 
 @app.route('/search')
 def search():
-    # Define parameter of the search
     params = request.args.get("search")
     params = params.upper()
     with open("../FlaskApp/documents/docID_doc.json", "r") as doc:
@@ -24,7 +24,10 @@ def search():
     with open("../FlaskApp/documents/termID_docID.json", "r") as doc:
         termID_docID_string = doc.read()
         termID_docID = literal_eval(termID_docID_string)
-    return modele_booleen_front(term_termID, docID_doc, termID_docID, docs_backup, params)
+    result = modele_booleen_front(term_termID, docID_doc, termID_docID, docs_backup, params)
+    wrap_result_in_html(result, params)
+    return render_template('result.html')
+
 
 if __name__ == "__main__":
     app.run()

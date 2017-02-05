@@ -1,10 +1,10 @@
-from riw.cacm.tokenization import *
+from cacm.tokenization import *
 
-from riw.cacm.A_traitements_linguistiques import *
-from riw.cacm.B_indexation import *
-from riw.cacm.C_modele_booleen import *
-from riw.cacm.D_modele_vectoriel import *
-from riw.cacm.E_mesure_pertinence import *
+from cacm.A_traitements_linguistiques import *
+from cacm.B_indexation import *
+from cacm.C_modele_booleen import *
+from cacm.D_modele_vectoriel import *
+from cacm.E_mesure_pertinence import *
 
 if __name__ == '__main__':
 
@@ -30,16 +30,16 @@ if __name__ == '__main__':
     print("| 2.2.1 / C Modèle de recherche booléen                     |")
     print("------------------------------------------------------------")
     modele_booleen(term_termID, docID_doc, termID_docID, docs_backup)
-    #
-    # print("\n------------------------------------------------------------")
-    # print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
-    # print("------------------------------------------------------------")
-    # modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID)
 
-    # print("\n------------------------------------------------------------")
-    # print("| 2.3 / E Mesures de pertinence                            |")
-    # print("------------------------------------------------------------")
-    # mesure_pertinence(term_termID, docID_doc, termID_docID, docID_termID)
+    print("\n------------------------------------------------------------")
+    print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
+    print("------------------------------------------------------------")
+    modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID)
+
+    print("\n------------------------------------------------------------")
+    print("| 2.3 / E Mesures de pertinence                            |")
+    print("------------------------------------------------------------")
+    mesure_pertinence(term_termID, docID_doc, termID_docID, docID_termID)
 
     # Ferme cacm.all
     cacm.close()

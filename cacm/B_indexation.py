@@ -1,4 +1,6 @@
 import time
+# TODO uncomment to re-write files in FlaskApp/documents
+# import json
 
 
 def indexation(useful_tokens, docs):
@@ -30,4 +32,13 @@ def indexation(useful_tokens, docs):
     end = time.time()
     duration = (end-start)*1000
     print("Indexation effectuée en", duration, "ms.")
+
+    # TODO uncomment to re-write files in FlaskApp/documents
+    # with open("../FlaskApp/documents/termID_docID.json", "w") as doc:
+    #     json.dump(termID_docID, doc)
+    # with open("../FlaskApp/documents/docID_doc.json", "w") as doc:
+    #     json.dump(docID_doc, doc)
+    # with open("../FlaskApp/documents/term_termID.json", "w") as doc:
+    #     json.dump(term_termID, doc)
+
     return term_termID, docID_doc, termID_docID, docID_termID
