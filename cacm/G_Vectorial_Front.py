@@ -87,13 +87,10 @@ def cos_sim_front(docID, termID_docID, docID_termID, N_docs, N_terms, method, w_
     # Create the vectors for the query and the doc according to the chosen method
     num, s_doc = 0, 0
     # 1 <=> tf_idf | 2 <=> n_tf_idf | 3 <=> n_freq
-    if method in [1, 2, 3]:
-        for t_ID in docID_termID[str(docID)]:
-            w_doc_tID = tf_idf_front(t_ID, docID, termID_docID, N_docs)
-            num += w_query[t_ID]*w_doc_tID
-            s_doc += w_doc_tID**2
-    else:
-        print("La méthode de pondération que vous souhaitez utiliser n'existe pas ou n'a pas été implémentée.")
+    for t_ID in docID_termID[str(docID)]:
+        w_doc_tID = tf_idf_front(t_ID, docID, termID_docID, N_docs)
+        num += w_query[t_ID]*w_doc_tID
+        s_doc += w_doc_tID**2
     if s_doc == 0 or s_query == 0:
         return 0
     else:
