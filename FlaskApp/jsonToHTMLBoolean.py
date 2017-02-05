@@ -1,5 +1,6 @@
 def wrap_result_in_html_boolean(json, params):
-    with open("../FlaskApp/templates/result.html", 'w') as result_html:
+    filename = "../FlaskApp/templates/" + params + "_boolean.html"
+    with open(filename, 'w') as result_html:
         result_html.truncate()
         wrapper = wrapper_header
         wrapper += params

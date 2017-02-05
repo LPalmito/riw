@@ -16,6 +16,8 @@ def main():
 def boolean_search():
     params = request.args.get("search")
     params = params.upper()
+    print("bool")
+    print(params)
     with open("../FlaskApp/documents/docID_doc.json", "r") as doc:
         docID_doc_string = doc.read()
         docID_doc = literal_eval(docID_doc_string)
@@ -30,12 +32,15 @@ def boolean_search():
         termID_docID = literal_eval(termID_docID_string)
     result = modele_booleen_front(term_termID, docID_doc, termID_docID, docs_backup, params)
     wrap_result_in_html_boolean(result, params)
-    return render_template('result.html')
+    template_to_be_rendered = params + "_boolean.html"
+    return render_template(template_to_be_rendered)
 
 
 @app.route('/vect_search')
 def vect_search():
     params = request.args.get("search")
+    print("vect")
+    print(params)
     params = params.upper()
     with open("../FlaskApp/documents/docID_doc.json", "r") as doc:
         docID_doc_string = doc.read()
@@ -54,7 +59,8 @@ def vect_search():
         docID_termID = literal_eval(docID_termID_string)
     result = modele_vectoriel_front(term_termID, docID_doc, termID_docID, docID_termID, docs_backup, params)
     wrap_result_in_html_vectorial(result, params)
-    return render_template('result.html')
+    template_to_be_rendered = params + "_vectorial.html"
+    return render_template(template_to_be_rendered)
 
 
 @app.route('/monkey')
