@@ -1,9 +1,9 @@
 import time
-import pprint
 
 
 def modele_booleen(term_termID, docID_doc, termID_docID, docs_backup):
     """Print the results of a single-word search and a CNF search"""
+
     # Take user input for a single word as search
     searched_term = input("Entrez un mot à rechercher dans les documents : ").upper()
     start_1 = time.time()
@@ -11,8 +11,7 @@ def modele_booleen(term_termID, docID_doc, termID_docID, docs_backup):
     end_1 = time.time()
     duration_1 = (end_1-start_1)*1000
     print("Temps de réponse :", duration_1, "ms.")
-    # pprint.pprint(docs_backup[:4])
-    # pprint.pprint((docID_doc))
+
     # Display properly the results
     if len(searched_docIDs_1) == 0:
         print("Il n'y a aucun document présent dans le corpus correspondant à votre recherche.")
@@ -41,6 +40,7 @@ def modele_booleen(term_termID, docID_doc, termID_docID, docs_backup):
                         print(word, "", end='')
             print("")
     print("- - - - -")
+
     # Take user input for a normal conjunctive expression
     searched_expression = input("Entrez une expression sous forme normale conjonctive comme dans l'exemple suivant :\n"
                                 "ex: 1.2+3.-4 = (1) AND (2 OR 3) AND (NOT 4)\n").upper()

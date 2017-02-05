@@ -10,8 +10,6 @@ def get_docs(text):
     docs = list(render_documents(text))
     docs_backup = copy.deepcopy(docs)
     docs = filter_documents(docs)
-    # TODO: Delete it, only for tests purposes
-    # docs = docs[:499]
     return docs, docs_backup
 
 
@@ -19,7 +17,6 @@ def get_useful_tokens(docs):
     """Return a list of the useful tokens"""
     useful_tokens = []
     for doc in docs:
-        # TODO: Query 2 concerns Authors, what about adding them here?
         useful_tokens.extend(doc['.T'])
         useful_tokens.extend(doc['.W'])
         useful_tokens.extend(doc['.K'])
@@ -28,12 +25,13 @@ def get_useful_tokens(docs):
 
 def render_documents(text):
     """Return a list of docs created from the tokens"""
+
     # Initialisations
     tokens = nltk.word_tokenize(text)
     markers = ['.I', '.T', '.W', '.B', '.A', '.N', '.X', '.K']
     current_marker, current_doc = '.I', {}
     result = []
-    # docs_backup = []
+
     # Prepare the result
     for token in tokens:
         # For each new .I, prepare a new doc and fill it
@@ -51,7 +49,6 @@ def render_documents(text):
         else:
             current_doc[current_marker].append(token)
     result.append(current_doc)
-    # docs_backup.append((current_doc))
     return result
 
 
