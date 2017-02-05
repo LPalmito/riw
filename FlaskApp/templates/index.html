@@ -31,9 +31,10 @@
         <div class="jumbotron">
             <h1>Monkgle</h1>
             <p class="lead"></p>
-            <form class="form-wrapper cf" action="/search" method="get">
+            <form class="form-wrapper cf" method="get">
                 <input name="search" type="text" placeholder="Search here..." required>
-                <button type="submit">Search</button>
+                <button type="submit" formaction="/boolean_search">Boolean Search</button>
+                <button type="submit" formaction="/vectorial_search">Vectorial Search</button>
             </form>
         </div>
 

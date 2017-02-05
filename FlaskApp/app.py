@@ -4,11 +4,13 @@ from ast import literal_eval
 from FlaskApp.jsonToHTML import *
 app = Flask(__name__)
 
+
 @app.route("/")
 def main():
     return render_template('index.html')
 
-@app.route('/search')
+
+@app.route('/boolean_search')
 def search():
     params = request.args.get("search")
     params = params.upper()
@@ -27,6 +29,28 @@ def search():
     result = modele_booleen_front(term_termID, docID_doc, termID_docID, docs_backup, params)
     wrap_result_in_html(result, params)
     return render_template('result.html')
+
+
+@app.route('/vectorial_search')
+def search():
+    params = request.args.get("search")
+    params = params.upper()
+    with open("../FlaskApp/documents/docID_doc.json", "r") as doc:
+        docID_doc_string = doc.read()
+        docID_doc = literal_eval(docID_doc_string)
+    with open("../FlaskApp/documents/docs_backup.json", "r") as doc:
+        docs_backup_string = doc.read()
+        docs_backup = literal_eval(docs_backup_string)
+    with open("../FlaskApp/documents/term_termID.json", "r") as doc:
+        term_termID_string = doc.read()
+        term_termID = literal_eval(term_termID_string)
+    with open("../FlaskApp/documents/termID_docID.json", "r") as doc:
+        termID_docID_string = doc.read()
+        termID_docID = literal_eval(termID_docID_string)
+    result = modele_booleen_front(term_termID, docID_doc, termID_docID, docs_backup, params)
+    wrap_result_in_html(result, params)
+    return render_template('result.html')
+
 
 @app.route('/monkey')
 def monkey():
