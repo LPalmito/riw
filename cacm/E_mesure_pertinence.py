@@ -100,7 +100,7 @@ def get_p_and_tp(ranks, docID_termID, queryID_query, term_termID, docID_doc, ter
     docID_cos_sim = []
     N_docs = len(docID_termID)
     for r in ranks:
-        for m in range(1):
+        for m in range(2):
             for qID, query in queryID_query.items():
                 count, k = 0, 0
                 if r == ranks[0]:
@@ -151,15 +151,24 @@ def print_results(ranks, P, R, e_measures, f_measures):
         mpatches.Patch(color='green', label='F-mesure')
     ]
 
-    # Create the precision / recall graph
+    # Create the precision / recall graph for tf-idf method
     plt.figure(1)
-    plt.title('Précision en fonction du rappel')
+    plt.title('Précision en fonction du rappel pour la méthode tf-idf')
     for i, r in enumerate(ranks):
-        plt.scatter(list(R[r][0].values()), list(P[r][0].values()), marker='o', linestyle='--', color=colors[i % len(colors)])
+        plt.scatter(list(R[r][0].values()), list(P[r][0].values()),
+                    marker='o', linestyle='--', color=colors[i % len(colors)])
+    plt.legend(handles=pr_patches)
+
+    # Create the precision / recall graph for normalized(e) tf-idf method
+    plt.figure(2)
+    plt.title('Précision en fonction du rappel pour la méthode tf-idf normalisé(e)')
+    for i, r in enumerate(ranks):
+        plt.scatter(list(R[r][1].values()), list(P[r][1].values()),
+                    marker='o', linestyle='--', color=colors[i % len(colors)])
     plt.legend(handles=pr_patches)
 
     # Create the e-measure and f-measure / rank graph
-    plt.figure(2)
+    plt.figure(3)
     plt.title('E-mesure et F-mesure en fonction du rang')
     moy_e_measures, moy_f_measures = [], []
     for r in ranks:
