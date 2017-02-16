@@ -3,7 +3,7 @@
 ### Quickstart
 
 + Cloner le repo git
-+ Si nécessaire, installer `nltk`, `matplotlib` ainsi que `regex` via la commande `pip install <module>`
++ Effectuer un `pip install -r requirement.txt`
 + Si nécessaire, lancer `nltk_dowload.py` et installer la collection `stopwords` via le nltk downloader
 + Lancer `main.py` dans le dossier `cacm`
 + Suivre les instructions dans la console python
@@ -14,7 +14,7 @@
 + Ouvrir un navigateur et aller sur `http://127.0.0.1:5000`
 + Utiliser le moteur de recherche
 
-A noter qu'à chaque nouvelle recherche un fichier html sera généré. Il serait bien sûr préférable d'avoir un fonctionnement autre moins gourmand en espace mémoire. Etant donné que cela n'était pas le coeur du travail à fournir, nous avons décidé de ne pas nous attarder sur ce point.
+A noter qu'à chaque nouvelle recherche un fichier html sera généré. Il serait bien sûr préférable d'avoir un fonctionnement moins gourmand en espace mémoire. Etant donné que cela n'était pas le coeur du travail à fournir, nous avons décidé de ne pas nous attarder sur ce point.
 
 ### Organisation du code
 
@@ -44,4 +44,4 @@ Les différents fichiers et dossiers présents dans le dossier `FlaskApp` ont po
 
 #### Dossier 'cs276'
 
-Nous avions commencé à travailler en parrallèle sur les collections `cacm` et `cs276` mais n'avons malheureusement pas eu le temps d'avoir beaucoup de résultats avec `cs276`. Ce dossier regroupe nos débuts de travaux sur cette collection.
+Nous avions commencé à travailler en parrallèle sur les collections `cacm` et `cs276` mais n'avons malheureusement pas eu le temps d'avoir beaucoup de résultats avec `cs276`. Ce dossier regroupe nos débuts de travaux sur cette collection. Ils reprennent grandement les travaux effectués avec cacm.
