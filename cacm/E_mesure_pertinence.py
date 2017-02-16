@@ -49,8 +49,6 @@ def get_queryID_query():
     query_docs = render_documents(test_query)
     queryID_query = {}
     for i, doc in enumerate(query_docs):
-        # TODO remove condition – for test purpose
-        # if i < 5:
         queryID_query[i] = " ".join(doc['.W'])
     query_file.close()
     return queryID_query
@@ -65,8 +63,6 @@ def get_qID_rdocID():
     for k in range(64):
         rels_dict[k] = []
     for i, token in enumerate(tokens):
-        # TODO remove condition – for test purpose
-        # if int(token) < 5:
         if i % 4 == 0:
             rels_dict[int(token)-1].append(int(tokens[i+1])-1)
     rels_file.close()
@@ -74,7 +70,7 @@ def get_qID_rdocID():
 
 
 def initialize(ranks, qID_rdocID):
-    """Initialize t, tp, p, P, R, e_measures, f_measures"""
+    """Initialize t (true), tp (true positive), p (positive), P (precision), R (recall), e_measures, f_measures"""
 
     # Initialisation of t
     t = {}
@@ -82,8 +78,6 @@ def initialize(ranks, qID_rdocID):
         t[qID] = len(qID_rdocID[qID])
 
     # Initialisation of p, tp, P, R, e_measures and f_measures
-    # p = positive, n = negative
-    # t = true, f = false
     # For example: 'tp[r][m][qID]' is the number of true positives for the request qID using method m+1 at rank r
     p = {}
     for r in ranks:
@@ -148,7 +142,6 @@ def print_results(ranks, P, R, e_measures, f_measures):
     # Create patches for the legend
     pr_patches = []
     colors = ['black', 'blue', 'cyan']
-    # colors = ['black', 'blue', 'cyan', 'green', 'yellow', 'orange', 'red', 'magenta']
     for i, r in enumerate(ranks):
         c = colors[i % len(colors)]
         l = 'Rang ' + str(r)
@@ -162,9 +155,7 @@ def print_results(ranks, P, R, e_measures, f_measures):
     plt.figure(1)
     plt.title('Précision en fonction du rappel')
     for i, r in enumerate(ranks):
-        # print(list(R[r][0].values()), list(P[r][0].values()))
         plt.scatter(list(R[r][0].values()), list(P[r][0].values()), marker='o', linestyle='--', color=colors[i % len(colors)])
-        # plt.plot(list(range(64)), list(range(64)))
     plt.legend(handles=pr_patches)
 
     # Create the e-measure and f-measure / rank graph
