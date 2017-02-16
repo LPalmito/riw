@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request
-from cacm.F_Booleen_Front import *
-from cacm.G_Vectorial_Front import *
 from ast import literal_eval
+
+from FlaskApp.Boolean_Front import *
+from flask import Flask, render_template, request
+
+from FlaskApp.Vectorial_Front import *
 from FlaskApp.jsonToHTMLBoolean import *
 from FlaskApp.jsonToHTMLVectorial import *
+
 app = Flask(__name__)
 
 
