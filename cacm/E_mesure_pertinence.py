@@ -11,7 +11,7 @@ def mesure_pertinence(term_termID, docID_doc, termID_docID, docID_termID):
     # General initialisations
     queryID_query = get_queryID_query()
     qID_rdocID = get_qID_rdocID()
-    ranks = [10, 20, 50]
+    ranks = [5, 10, 100]
 
     # Initialize all the needed variables
     t, tp, p, P, R, e_measures, f_measures = initialize(ranks, qID_rdocID)
@@ -44,11 +44,13 @@ def f_measure(precision, recall):
 
 def get_queryID_query():
     """Return a dict with queryID as key and the query as value"""
-    query_file = open('./Resources/CACM/query.text')
+    query_file = open('../Resources/CACM/query.text')
     test_query = query_file.read()
     query_docs = render_documents(test_query)
     queryID_query = {}
     for i, doc in enumerate(query_docs):
+        # TODO remove condition – for test purpose
+        # if i < 5:
         queryID_query[i] = " ".join(doc['.W'])
     query_file.close()
     return queryID_query
@@ -56,15 +58,17 @@ def get_queryID_query():
 
 def get_qID_rdocID():
     """Return a dict with queryID as key and an array of docIDs as value"""
-    rels_file = open('./Resources/CACM/qrels.text')
+    rels_file = open('../Resources/CACM/qrels.text')
     text = rels_file.read()
     tokens = nltk.word_tokenize(text)
     rels_dict = {}
     for k in range(64):
         rels_dict[k] = []
     for i, token in enumerate(tokens):
+        # TODO remove condition – for test purpose
+        # if int(token) < 5:
         if i % 4 == 0:
-            rels_dict[int(token)-1].append(int(tokens[i+1]))
+            rels_dict[int(token)-1].append(int(tokens[i+1])-1)
     rels_file.close()
     return rels_dict
 
@@ -102,20 +106,19 @@ def get_p_and_tp(ranks, docID_termID, queryID_query, term_termID, docID_doc, ter
     docID_cos_sim = []
     N_docs = len(docID_termID)
     for r in ranks:
-        for m in range(2):
+        for m in range(1):
             for qID, query in queryID_query.items():
                 count, k = 0, 0
                 if r == ranks[0]:
                     print('Calcul en cours...', m + 1, '/ 2 |', qID + 1, '/ 64')
-                while count < r and k < N_docs:
-                    if r == ranks[0]:
-                        docID_cos_sim = \
+                    docID_cos_sim = \
                         vectorial_search(query, term_termID, docID_doc, termID_docID, docID_termID, m + 1)[0]
+                while count < r and k < N_docs:
                     docID, cos_sim = docID_cos_sim[k]
                     if cos_sim > 0:
                         p[r][m][qID] += 1
                         count += 1
-                        if docID in qID_rdocID[qID]:
+                        if docID  in qID_rdocID[qID]:
                             tp[r][m][qID] += 1
                     k += 1
     return p, tp
@@ -144,7 +147,8 @@ def print_results(ranks, P, R, e_measures, f_measures):
 
     # Create patches for the legend
     pr_patches = []
-    colors = ['black', 'blue', 'cyan', 'green', 'yellow', 'orange', 'red', 'magenta']
+    colors = ['black', 'blue', 'cyan']
+    # colors = ['black', 'blue', 'cyan', 'green', 'yellow', 'orange', 'red', 'magenta']
     for i, r in enumerate(ranks):
         c = colors[i % len(colors)]
         l = 'Rang ' + str(r)
@@ -157,8 +161,10 @@ def print_results(ranks, P, R, e_measures, f_measures):
     # Create the precision / recall graph
     plt.figure(1)
     plt.title('Précision en fonction du rappel')
-    for r in ranks:
-        plt.plot(list(R[r][0].values()), list(P[r][0].values()))
+    for i, r in enumerate(ranks):
+        # print(list(R[r][0].values()), list(P[r][0].values()))
+        plt.scatter(list(R[r][0].values()), list(P[r][0].values()), marker='o', linestyle='--', color=colors[i % len(colors)])
+        # plt.plot(list(range(64)), list(range(64)))
     plt.legend(handles=pr_patches)
 
     # Create the e-measure and f-measure / rank graph

@@ -26,15 +26,15 @@ if __name__ == '__main__':
     print("------------------------------------------------------------")
     term_termID, docID_doc, termID_docID, docID_termID = indexation(unique_useful_tokens, docs)
 
-    print("\n------------------------------------------------------------")
-    print("| 2.2.1 / C Modèle de recherche booléen                     |")
-    print("------------------------------------------------------------")
-    modele_booleen(term_termID, docID_doc, termID_docID, docs_backup)
-
-    print("\n------------------------------------------------------------")
-    print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
-    print("------------------------------------------------------------")
-    modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID)
+    # print("\n------------------------------------------------------------")
+    # print("| 2.2.1 / C Modèle de recherche booléen                     |")
+    # print("------------------------------------------------------------")
+    # modele_booleen(term_termID, docID_doc, termID_docID, docs_backup)
+    #
+    # print("\n------------------------------------------------------------")
+    # print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
+    # print("------------------------------------------------------------")
+    # modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID)
 
     print("\n------------------------------------------------------------")
     print("| 2.3 / E Mesures de pertinence                            |")
