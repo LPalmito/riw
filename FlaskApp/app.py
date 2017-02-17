@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request
-from cacm.F_Boolean_Front import *
-from cacm.G_Vectorial_Front import *
 from ast import literal_eval
+
+from FlaskApp.Boolean_Front import *
+from flask import Flask, render_template, request
+
+from FlaskApp.Vectorial_Front import *
 from FlaskApp.jsonToHTMLBoolean import *
 from FlaskApp.jsonToHTMLVectorial import *
+
 app = Flask(__name__)
 
 
@@ -16,8 +19,6 @@ def main():
 def boolean_search():
     params = request.args.get("search")
     params = params.upper()
-    print("bool")
-    print(params)
     with open("../FlaskApp/documents/docID_doc.json", "r") as doc:
         docID_doc_string = doc.read()
         docID_doc = literal_eval(docID_doc_string)
@@ -39,8 +40,6 @@ def boolean_search():
 @app.route('/vect_search')
 def vect_search():
     params = request.args.get("search")
-    print("vect")
-    print(params)
     params = params.upper()
     with open("../FlaskApp/documents/docID_doc.json", "r") as doc:
         docID_doc_string = doc.read()
