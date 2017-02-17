@@ -2,7 +2,7 @@ import time
 from cacm.print_tools import boolean_print
 
 
-def modele_booleen(term_termID, docID_doc, termID_docID, docs_backup):
+def boolean_main(term_termID, docID_doc, termID_docID, docs_backup):
     """Print the results of a single-word search and a CNF search"""
 
     # Take user input for a single word as search

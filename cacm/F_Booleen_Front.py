@@ -1,4 +1,4 @@
-from cacm.C_modele_booleen import *
+from cacm.C_boolean_main import *
 
 
 def modele_booleen_front(term_termID, docID_doc, termID_docID, docs_backup, search):

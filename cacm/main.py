@@ -1,10 +1,10 @@
 from cacm.tokenization import *
 
-from cacm.A_traitements_linguistiques import *
+from cacm.A_linguistic_processing import *
 from cacm.B_indexation import *
-from cacm.C_modele_booleen import *
-from cacm.D_modele_vectoriel import *
-from cacm.E_mesure_pertinence import *
+from cacm.C_boolean_main import *
+from cacm.D_1_vectorial_main import *
+from cacm.E_pertinence_measures import *
 
 if __name__ == '__main__':
 
@@ -19,7 +19,7 @@ if __name__ == '__main__':
     print("\n------------------------------------------------------------")
     print("| 2.1 / A Traitements linguistiques                         |")
     print("------------------------------------------------------------")
-    unique_useful_tokens = traitements_linguistiques(useful_tokens)
+    unique_useful_tokens = linguistic_processing(useful_tokens)
 
     print("\n------------------------------------------------------------")
     print("| 2.2 / B Indexation                                        |")
@@ -29,17 +29,17 @@ if __name__ == '__main__':
     print("\n------------------------------------------------------------")
     print("| 2.2.1 / C Modèle de recherche booléen                     |")
     print("------------------------------------------------------------")
-    modele_booleen(term_termID, docID_doc, termID_docID, docs_backup)
+    boolean_main(term_termID, docID_doc, termID_docID, docs_backup)
 
     print("\n------------------------------------------------------------")
     print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
     print("------------------------------------------------------------")
-    modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID, docs_backup)
+    vectorial_main(term_termID, docID_doc, termID_docID, docID_termID, docs_backup)
 
     print("\n------------------------------------------------------------")
     print("| 2.3 / E Mesures de pertinence                            |")
     print("------------------------------------------------------------")
-    mesure_pertinence(term_termID, docID_doc, termID_docID, docID_termID)
+    pertinence_measures(term_termID, docID_doc, termID_docID, docID_termID)
 
     # Ferme cacm.all
     cacm.close()

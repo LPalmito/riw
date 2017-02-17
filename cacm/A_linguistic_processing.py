@@ -3,7 +3,7 @@ import nltk
 import matplotlib.pyplot as plt
 
 
-def traitements_linguistiques(useful_tokens):
+def linguistic_processing(useful_tokens):
 
     # Question 1 :
     print("----- ----- -----")

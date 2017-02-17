@@ -1,11 +1,11 @@
 from cacm.tokenization import render_documents
 import nltk
-from cacm.D_modele_vectoriel import vectorial_search
+from cacm.D_1_vectorial_main import vectorial_search
 from cacm.print_tools import print_pertinence
 from copy import deepcopy
 
 
-def mesure_pertinence(term_termID, docID_doc, termID_docID, docID_termID):
+def pertinence_measures(term_termID, docID_doc, termID_docID, docID_termID):
 
     # General initialisations
     queryID_query = get_queryID_query()

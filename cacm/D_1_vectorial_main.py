@@ -1,10 +1,10 @@
-from cacm.C_modele_booleen import *
+from cacm.C_boolean_main import *
 from cacm.print_tools import vectorial_print
 from cacm.query_updates import *
-from cacm.D_2_ponderations_methods import *
+from cacm.D_2_ponderation_methods import *
 
 
-def modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID, docs_backup):
+def vectorial_main(term_termID, docID_doc, termID_docID, docID_termID, docs_backup):
     """Take user input and calculate the query-related vertices"""
     m = int(input("Choisissez votre méthode de pondération entre les 3 suivantes en tapant son numéro: \n"
           "1/ tf-idf \n"
