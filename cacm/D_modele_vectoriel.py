@@ -18,9 +18,8 @@ def tf_idf(termID, docID, termID_docID, N_docs):
     """Return the tf-idf"""
     tf, df, idf = 0, 0, 0
     df = len(termID_docID[termID])
-    for dID in termID_docID[termID]:
-        if dID == docID:
-            tf += 1
+    if docID in termID_docID[termID]:
+        tf += 1
     if df != 0:
         idf = math.log(N_docs / df, 10)
     return tf*idf
