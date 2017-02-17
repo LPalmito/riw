@@ -11,7 +11,7 @@ def mesure_pertinence(term_termID, docID_doc, termID_docID, docID_termID):
     # General initialisations
     queryID_query = get_queryID_query()
     qID_rdocID = get_qID_rdocID()
-    ranks = [5, 10, 100]
+    ranks = [5, 10, 20, 50, 100, 200]
 
     # Initialize all the needed variables
     t, tp, p, P, R, e_measures, f_measures = initialize(ranks, qID_rdocID)
@@ -22,8 +22,11 @@ def mesure_pertinence(term_termID, docID_doc, termID_docID, docID_termID):
     # Compute P, R, e_measures, and f_measures
     P, R, e_measures, f_measures = get_P_R_e_f(ranks, queryID_query, P, R, p, tp, t, e_measures, f_measures)
 
+    # Compute MAP
+    map = get_map(P, ranks)
+
     # Print the results
-    print_results(ranks, P, R, e_measures, f_measures)
+    print_results(ranks, P, R, e_measures, f_measures, map)
 
 
 def e_measure(precision, recall):
@@ -136,13 +139,26 @@ def get_P_R_e_f(ranks, queryID_query, P, R, p, tp, t, e_measures, f_measures):
     return P, R, e_measures, f_measures
 
 
-def print_results(ranks, P, R, e_measures, f_measures):
+def get_map(P, ranks):
+    """Compute MAP (Mean Average Precision) for each rank and each method"""
+    map = {}
+    for m in range(2):
+        map[m] = {}
+        for r in ranks:
+            map[m][r] = sum(list(P[r][m].values()))/len(list(P[r][m].values()))
+    return map
+
+
+def print_results(ranks, P, R, e_measures, f_measures, map):
     """Print the results"""
+
+    # Fewer ranks for display
+    fewer_ranks = [ranks[k] for k in range(len(ranks)) if k % 2 == 0]
 
     # Create patches for the legend
     pr_patches = []
     colors = ['black', 'blue', 'cyan']
-    for i, r in enumerate(ranks):
+    for i, r in enumerate(fewer_ranks):
         c = colors[i % len(colors)]
         l = 'Rang ' + str(r)
         pr_patches.append(mpatches.Patch(color=c, label=l))
@@ -150,11 +166,15 @@ def print_results(ranks, P, R, e_measures, f_measures):
         mpatches.Patch(color='blue', label='E-mesure'),
         mpatches.Patch(color='green', label='F-mesure')
     ]
+    map_patches = [
+        mpatches.Patch(color='black', label='tf-idf'),
+        mpatches.Patch(color='blue', label='tf-idf normalisé(e)')
+    ]
 
     # Create the precision / recall graph for tf-idf method
     plt.figure(1)
     plt.title('Précision en fonction du rappel pour la méthode tf-idf')
-    for i, r in enumerate(ranks):
+    for i, r in enumerate(fewer_ranks):
         plt.scatter(list(R[r][0].values()), list(P[r][0].values()),
                     marker='o', linestyle='--', color=colors[i % len(colors)])
     plt.legend(handles=pr_patches)
@@ -162,13 +182,21 @@ def print_results(ranks, P, R, e_measures, f_measures):
     # Create the precision / recall graph for normalized(e) tf-idf method
     plt.figure(2)
     plt.title('Précision en fonction du rappel pour la méthode tf-idf normalisé(e)')
-    for i, r in enumerate(ranks):
+    for i, r in enumerate(fewer_ranks):
         plt.scatter(list(R[r][1].values()), list(P[r][1].values()),
                     marker='o', linestyle='--', color=colors[i % len(colors)])
     plt.legend(handles=pr_patches)
 
-    # Create the e-measure and f-measure / rank graph
+    # Mean Average Precision / rank graph for tf-idf method
     plt.figure(3)
+    plt.title('Mean Average Precision en fonction du rang')
+    for m in range(2):
+        plt.plot(ranks, list(map[m].values()),
+                    marker='o', linestyle='--', color=colors[m % len(colors)])
+    plt.legend(handles=map_patches)
+
+    # Create the e-measure and f-measure / rank graph
+    plt.figure(4)
     plt.title('E-mesure et F-mesure en fonction du rang')
     moy_e_measures, moy_f_measures = [], []
     for r in ranks:
