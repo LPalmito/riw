@@ -40,27 +40,20 @@ def n_tf_idf(termID, docID, termID_docID, N_docs):
     return n_tf*idf
 
 
-def n_freq(termID, docID, termID_docID, docID_termID):
+def n_freq(termID, docID, termID_docID, docID_mtf):
     """Return the normalized frequency"""
     tf = 0
-    num_tf, max_tf = 0, 0
+    max_tf = docID_mtf[docID]
     for dID in termID_docID[termID]:
         if dID == docID:
             tf += 1
-    for t_ID in docID_termID[docID]:
-        tfj = 0
-        for dID in termID_docID[t_ID]:
-            if dID == docID:
-                tfj += 1
-        if tfj > max_tf:
-            max_tf = tfj
     if max_tf == 0:
         return 0
     else:
         return tf/max_tf
 
 
-def cos_sim(docID, termID_docID, docID_termID, N_docs, N_terms, method, w_query, s_query):
+def cos_sim(docID, termID_docID, docID_termID, N_docs, method, w_query, s_query, docID_mtf):
     """Return the cos similarity"""
     # Create the vectors for the query and the doc according to the chosen method
     num, s_doc = 0, 0
@@ -76,7 +69,7 @@ def cos_sim(docID, termID_docID, docID_termID, N_docs, N_terms, method, w_query,
                 num += w_query[t_ID] * w_doc_tID
                 s_doc += w_doc_tID ** 2
             elif method == 3:
-                w_doc_tID = n_freq(t_ID, docID, termID_docID, docID_termID)
+                w_doc_tID = n_freq(t_ID, docID, termID_docID, docID_mtf)
                 num += w_query[t_ID] * w_doc_tID
                 s_doc += w_doc_tID ** 2
     else:
@@ -93,15 +86,18 @@ def vectorial_search(query, term_termID, docID_doc, termID_docID, docID_termID, 
     start = time.time()
     docID_cos_sim = []
 
+    docID_mtf = get_docID_mtf(docID_doc, docID_termID, termID_docID, m)
+
     # Compute the query-related cosinus
     tID_dID = update_termID_docID(query, termID_docID, term_termID)
     dID_tID = update_docID_termID(query, docID_termID, term_termID)
-    w_query, s_query = get_w_query(tID_dID, len(docID_doc), len(term_termID), m, dID_tID)
+    dID_mtf = update_docID_mtf(docID_mtf, dID_tID, tID_dID)
+    w_query, s_query = get_w_query(tID_dID, len(docID_doc), len(term_termID), m, dID_mtf)
 
     # Compute the corpus-related cosinus
     for dID in range(len(docID_doc)):
         docID_cos_sim.append(
-            (dID, cos_sim(dID, termID_docID, docID_termID, len(docID_doc), len(term_termID), m, w_query, s_query)))
+            (dID, cos_sim(dID, termID_docID, docID_termID, len(docID_doc), m, w_query, s_query, docID_mtf)))
     docID_cos_sim.sort(key=lambda dID_cos: dID_cos[1], reverse=True)
     end = time.time()
     duration = end - start
@@ -109,7 +105,7 @@ def vectorial_search(query, term_termID, docID_doc, termID_docID, docID_termID, 
     return docID_cos_sim, duration
 
 
-def get_w_query(tID_dID, N_docs, N_terms, method, dID_tID):
+def get_w_query(tID_dID, N_docs, N_terms, method, dID_mtf):
     """Return the weight and the squared norm of the query"""
     w_query, s_query = [], 0
     for t_ID in range(N_terms):
@@ -120,7 +116,7 @@ def get_w_query(tID_dID, N_docs, N_terms, method, dID_tID):
             w_query.append(n_tf_idf(t_ID, -1, tID_dID, N_docs))
             s_query += w_query[t_ID] ** 2
         elif method == 3:
-            w_query.append(n_freq(t_ID, -1, tID_dID, dID_tID))
+            w_query.append(n_freq(t_ID, -1, tID_dID, dID_mtf))
             s_query += w_query[t_ID] ** 2
     return w_query, s_query
 
@@ -144,3 +140,32 @@ def update_docID_termID(query, docID_termID, term_termID):
         if q_token in term_termID.keys():
             dID_tID[-1].append(term_termID[q_token])
     return dID_tID
+
+
+def update_docID_mtf(docID_mtf, dID_tID, tID_dID):
+    """Update the docID_termID with the query"""
+    dID_mtf = docID_mtf
+    dID_mtf[-1] = 0
+    for t_ID in dID_tID[-1]:
+        tfj = 0
+        for dID in tID_dID[t_ID]:
+            if dID == dID:
+                tfj += 1
+        if tfj > docID_mtf[dID]:
+            docID_mtf[dID] = tfj
+    return dID_mtf
+
+
+def get_docID_mtf(docID_doc, docID_termID, termID_docID, m):
+    """Compute max_tf for dID"""
+    docID_mtf = {}
+    for docID in range(len(docID_doc)):
+        docID_mtf[docID] = 0
+        for t_ID in docID_termID[docID]:
+            tfj = 0
+            for dID in termID_docID[t_ID]:
+                if dID == docID:
+                    tfj += 1
+            if tfj > docID_mtf[docID]:
+                docID_mtf[docID] = tfj
+    return docID_mtf

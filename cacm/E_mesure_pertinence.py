@@ -84,7 +84,7 @@ def initialize(ranks, qID_rdocID):
     p = {}
     for r in ranks:
         p[r] = {}
-        for m in range(2):
+        for m in range(3):
             p[r][m] = {}
             for qID in range(64):
                 p[r][m][qID] = 0
@@ -102,7 +102,7 @@ def get_p_and_tp(ranks, docID_termID, queryID_query, term_termID, docID_doc, ter
     docID_cos_sim = []
     N_docs = len(docID_termID)
     for r in ranks:
-        for m in range(2):
+        for m in range(3):
             for qID, query in queryID_query.items():
                 count, k = 0, 0
                 if r == ranks[0]:
@@ -123,7 +123,7 @@ def get_p_and_tp(ranks, docID_termID, queryID_query, term_termID, docID_doc, ter
 def get_P_R_e_f(ranks, queryID_query, P, R, p, tp, t, e_measures, f_measures):
     """Return the precision, the recall, the e-measure and the f-measure"""
     for r in ranks:
-        for m in range(2):
+        for m in range(3):
             for qID in queryID_query:
                 if p[r][m][qID] != 0:
                     P[r][m][qID] = tp[r][m][qID] / p[r][m][qID]
@@ -141,7 +141,7 @@ def get_P_R_e_f(ranks, queryID_query, P, R, p, tp, t, e_measures, f_measures):
 def get_map(P, ranks):
     """Compute MAP (Mean Average Precision) for each rank and each method"""
     map = {}
-    for m in range(2):
+    for m in range(3):
         map[m] = {}
         for r in ranks:
             map[m][r] = sum(list(P[r][m].values()))/len(list(P[r][m].values()))
