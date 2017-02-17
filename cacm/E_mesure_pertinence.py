@@ -106,7 +106,7 @@ def get_p_and_tp(ranks, docID_termID, queryID_query, term_termID, docID_doc, ter
             for qID, query in queryID_query.items():
                 count, k = 0, 0
                 if r == ranks[0]:
-                    print('Calcul en cours...', m + 1, '/ 2 |', qID + 1, '/ 64')
+                    print('Calcul en cours...', m + 1, '/ 3 |', qID + 1, '/ 64')
                     docID_cos_sim = \
                         vectorial_search(query, term_termID, docID_doc, termID_docID, docID_termID, m + 1)[0]
                 while count < r and k < N_docs:
