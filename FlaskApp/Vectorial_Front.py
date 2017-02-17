@@ -1,4 +1,4 @@
-from cacm.D_modele_vectoriel import *
+from cacm.D_1_vectorial_main import *
 import pprint
 
 
