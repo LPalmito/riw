@@ -34,7 +34,7 @@ if __name__ == '__main__':
     print("\n------------------------------------------------------------")
     print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
     print("------------------------------------------------------------")
-    modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID)
+    modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID, docs_backup)
 
     print("\n------------------------------------------------------------")
     print("| 2.3 / E Mesures de pertinence                            |")

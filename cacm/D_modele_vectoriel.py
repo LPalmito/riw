@@ -1,8 +1,9 @@
 import math
 from cacm.C_modele_booleen import *
+from cacm.print_tools import vectorial_print
 
 
-def modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID):
+def modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID, docs_backup):
     """Take user input and calculate the query-related vertices"""
     m = int(input("Choisissez votre méthode de pondération entre les 3 suivantes en tapant son numéro: \n"
           "1/ tf-idf \n"
@@ -10,7 +11,7 @@ def modele_vectoriel(term_termID, docID_doc, termID_docID, docID_termID):
           "3/ fréquence normalisée\n"))
     query = input("Entrez votre recherche ici : ")
     docID_cos_sim, duration = vectorial_search(query, term_termID, docID_doc, termID_docID, docID_termID, m)
-    print_results(docID_cos_sim, duration)
+    vectorial_print(docID_cos_sim, duration, docs_backup)
 
 
 def tf_idf(termID, docID, termID_docID, N_docs):
@@ -101,21 +102,6 @@ def vectorial_search(query, term_termID, docID_doc, termID_docID, docID_termID, 
     duration = end - start
 
     return docID_cos_sim, duration
-
-
-def print_results(docID_cos_sim, duration):
-    """Print the results"""
-    to_print = [(dID, c) for dID, c in docID_cos_sim if c != 0]
-    print("Temps de réponse :", duration, "s.")
-    if len(to_print) != 0:
-        print("Voici les documents triés par ordre de pertinence (similarités nulles exclues) : ")
-        for dID, c in to_print:
-            print("- - - - -")
-            print("Similarité : ", c)
-            print("ID : ", dID)
-    else:
-        print("Il n'y a aucun document présent dans le corpus correspondant à votre recherche.")
-    print("- - - - -")
 
 
 def get_w_query(tID_dID, N_docs, N_terms, method):
