@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from cacm.F_Booleen_Front import *
+from cacm.F_Boolean_Front import *
 from cacm.G_Vectorial_Front import *
 from ast import literal_eval
 from FlaskApp.jsonToHTMLBoolean import *
