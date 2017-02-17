@@ -85,7 +85,7 @@ def cos_sim(docID, termID_docID, docID_termID, N_docs, N_terms, method, w_query,
 
 def vectorial_search(query, term_termID, docID_doc, termID_docID, docID_termID, m):
     """Return a list of tuples of docID and its associated cos"""
-    # Initialisations
+    # Initializations
     start = time.time()
     docID_cos_sim = []
 

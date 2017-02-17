@@ -1,12 +1,13 @@
 import nltk
 import regex
-import pprint
 import copy
 
 
 def get_docs(text):
-    """Return a list of the useful tokens"""
-    # Tokenize the text, render it in docs and filter it
+    """
+    Tokenize the text, render it in docs and filter it
+    docs_backup helps us for nice printings
+    """
     docs = list(render_documents(text))
     docs_backup = copy.deepcopy(docs)
     docs = filter_documents(docs)
@@ -26,7 +27,7 @@ def get_useful_tokens(docs):
 def render_documents(text):
     """Return a list of docs created from the tokens"""
 
-    # Initialisations
+    # Initializations
     tokens = nltk.word_tokenize(text)
     markers = ['.I', '.T', '.W', '.B', '.A', '.N', '.X', '.K']
     current_marker, current_doc = '.I', {}
@@ -38,7 +39,6 @@ def render_documents(text):
         if token == '.I':
             if current_doc != {}:
                 result.append(current_doc)
-                # docs_backup.append(current_doc)
             current_doc = {}
             for marker in markers:
                 current_doc[marker] = []
