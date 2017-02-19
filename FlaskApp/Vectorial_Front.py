@@ -4,7 +4,7 @@ from FlaskApp.Vectorial_Front_Tools import *
 
 def vectorial_model_front(term_termID, docID_doc, termID_docID, docID_termID, docs_backup, query):
 
-    docID_cos_sim = vectorial_search_front(query, term_termID, docID_doc, termID_docID, docID_termID, 1)
+    docID_cos_sim = vectorial_search_front(query, term_termID, docID_doc, termID_docID, docID_termID)
     search_to_front = []
     list_sim = []
     min_max_sim = 0
