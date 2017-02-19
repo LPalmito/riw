@@ -19,7 +19,7 @@ if __name__ == '__main__':
     print("\n------------------------------------------------------------")
     print("| 2.1 / A Traitements linguistiques                         |")
     print("------------------------------------------------------------")
-    unique_useful_tokens = linguistic_processing(useful_tokens)
+    unique_useful_tokens = linguistic_processing(useful_tokens, display_graph="yes")
 
     print("\n------------------------------------------------------------")
     print("| 2.2 / B Indexation                                        |")

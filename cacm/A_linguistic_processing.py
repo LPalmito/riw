@@ -3,7 +3,7 @@ import nltk
 import matplotlib.pyplot as plt
 
 
-def linguistic_processing(useful_tokens):
+def linguistic_processing(useful_tokens, display_graph):
 
     # Question 1 :
     print("----- ----- -----")
@@ -49,19 +49,20 @@ def linguistic_processing(useful_tokens):
         ranks.append(rank)
         frequencies.append(frequency[1])
 
-    # Question 5 :
-    print("----- ----- -----")
-    print("Question 5 :")
-    plt.figure(1)
-    plt.subplot(211)
-    plt.title('f en fonction de r')
-    plt.plot(ranks, frequencies)
-    log_ranks = [math.log(rank + 1) for rank in ranks]
-    log_frequencies = [math.log(frequency) for frequency in frequencies]
-    plt.subplot(212)
-    plt.title('log(f) en fonction de log(r)')
-    plt.plot(log_ranks, log_frequencies)
-    print("Graphes affichés.")
-    plt.show()
+    if display_graph =="yes":
+        # Question 5 :
+        print("----- ----- -----")
+        print("Question 5 :")
+        plt.figure(1)
+        plt.subplot(211)
+        plt.title('f en fonction de r')
+        plt.plot(ranks, frequencies)
+        log_ranks = [math.log(rank + 1) for rank in ranks]
+        log_frequencies = [math.log(frequency) for frequency in frequencies]
+        plt.subplot(212)
+        plt.title('log(f) en fonction de log(r)')
+        plt.plot(log_ranks, log_frequencies)
+        print("Graphes affichés.")
+        plt.show()
 
     return unique_useful_tokens

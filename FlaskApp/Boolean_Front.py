@@ -1,7 +1,7 @@
 from cacm.C_boolean_main import *
 
 
-def modele_booleen_front(term_termID, docID_doc, termID_docID, docs_backup, search):
+def boolean_model_front(term_termID, docID_doc, termID_docID, docs_backup, search):
     """Print the results of a single-word search and a CNF search"""
     # Take user input for a single word as search
     searched_term = search

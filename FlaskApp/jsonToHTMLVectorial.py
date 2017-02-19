@@ -1,4 +1,4 @@
-def wrap_result_in_html_vectorial(json, params):
+def wrap_result_in_html_vectorial(results, params):
     filename = "../FlaskApp/templates/" + params + "_vectorial.html"
     with open(filename, 'w') as result_html:
         result_html.truncate()
@@ -6,12 +6,12 @@ def wrap_result_in_html_vectorial(json, params):
         wrapper += params
         wrapper += wrapper_title + params + """</h3>"""
         i = 0
-        for key, document in json.items():
+        for result in results:
             if i < 10:
-                wrapper += """<div><h4>""" + document[0] + " – " + "ID du doc : " + str(key) + " – " + "Similarité : " + \
-                           str(document[3]) + """</h4>""" \
-                           + """<div>""" + "<i>Date : " + document[1] + "</i></div>" + \
-                           "<div>" + document[2][:140] + "..." + "</div></div>"
+                wrapper += """<div><h4>""" + result[1] + " – " + "ID du doc : " + str(result[0]) + " – " + "Similarité : " + \
+                           str(result[4]) + """</h4>""" \
+                           + """<div>""" + "<i>Date : " + result[2] + "</i></div>" + \
+                           "<div>" + result[3][:140] + "..." + "</div></div>"
                 i += 1
             else:
                 break

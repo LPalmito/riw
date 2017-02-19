@@ -31,7 +31,7 @@ def boolean_search():
     with open("../FlaskApp/documents/termID_docID.json", "r") as doc:
         termID_docID_string = doc.read()
         termID_docID = literal_eval(termID_docID_string)
-    result = modele_booleen_front(term_termID, docID_doc, termID_docID, docs_backup, params)
+    result = boolean_model_front(term_termID, docID_doc, termID_docID, docs_backup, params)
     wrap_result_in_html_boolean(result, params)
     template_to_be_rendered = params + "_boolean.html"
     return render_template(template_to_be_rendered)
@@ -56,8 +56,8 @@ def vect_search():
     with open("../FlaskApp/documents/docID_termID.json", "r") as doc:
         docID_termID_string = doc.read()
         docID_termID = literal_eval(docID_termID_string)
-    result = modele_vectoriel_front(term_termID, docID_doc, termID_docID, docID_termID, docs_backup, params)
-    wrap_result_in_html_vectorial(result, params)
+    results = vectorial_model_front(term_termID, docID_doc, termID_docID, docID_termID, docs_backup, params)
+    wrap_result_in_html_vectorial(results, params)
     template_to_be_rendered = params + "_vectorial.html"
     return render_template(template_to_be_rendered)
 
