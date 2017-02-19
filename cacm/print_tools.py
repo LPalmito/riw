@@ -83,7 +83,8 @@ def print_pertinence(ranks, P, R, e_measures, f_measures, map):
     ]
     map_patches = [
         mpatches.Patch(color='black', label='tf-idf'),
-        mpatches.Patch(color='blue', label='tf-idf normalisé(e)')
+        mpatches.Patch(color='blue', label='tf-idf normalisé(e)'),
+        mpatches.Patch(color='cyan', label='normalized frequency')
     ]
 
     # Create the precision / recall graph for tf-idf method
@@ -102,22 +103,30 @@ def print_pertinence(ranks, P, R, e_measures, f_measures, map):
                     marker='o', linestyle='--', color=colors[i % len(colors)])
     plt.legend(handles=pr_patches)
 
-    # Mean Average Precision / rank graph for tf-idf method
+    # Create the precision / recall graph for normalized(e) frequency method
     plt.figure(3)
+    plt.title('Précision en fonction du rappel pour la méthode tf-idf normalisé(e)')
+    for i, r in enumerate(fewer_ranks):
+        plt.scatter(list(R[r][2].values()), list(P[r][2].values()),
+                    marker='o', linestyle='--', color=colors[i % len(colors)])
+    plt.legend(handles=pr_patches)
+
+    # Mean Average Precision / rank graph for tf-idf method
+    plt.figure(4)
     plt.title('Mean Average Precision en fonction du rang')
-    for m in range(2):
+    for m in range(3):
         plt.plot(ranks, list(map[m].values()),
                     marker='o', linestyle='--', color=colors[m % len(colors)])
     plt.legend(handles=map_patches)
 
     # Create the e-measure and f-measure / rank graph
-    plt.figure(4)
+    plt.figure(5)
     plt.title('E-mesure et F-mesure en fonction du rang')
     moy_e_measures, moy_f_measures = [], []
     for r in ranks:
-        e_measures_list = list(e_measures[r][0].values())
+        e_measures_list = list(e_measures[r][2].values())
         moy_e_measures.append(sum(e_measures_list)/len(e_measures_list))
-        f_measures_list = list(f_measures[r][0].values())
+        f_measures_list = list(f_measures[r][2].values())
         moy_f_measures.append(sum(f_measures_list)/len(f_measures_list))
     plt.plot(ranks, moy_e_measures)
     plt.plot(ranks, moy_f_measures)

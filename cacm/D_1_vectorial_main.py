@@ -1,6 +1,6 @@
 from cacm.C_boolean_main import *
 from cacm.print_tools import vectorial_print
-from cacm.query_updates import *
+from cacm.D_3_query_updates import *
 from cacm.D_2_ponderation_methods import *
 
 
