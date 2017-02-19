@@ -16,6 +16,7 @@ def get_cs276_tokens():
     """Put all words of the files in one list"""
 
     # Get folders to analyse
+    # TODO indicate right path here
     master_path = '/Users/Gus/PycharmProjects/Ri-W/riw/Resources/CS276/pa1-data'
     folders = ([folder for folder in os.listdir(master_path)])
 

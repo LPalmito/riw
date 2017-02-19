@@ -1,6 +1,6 @@
-from tokenization import *
+from cs276.tokenization import *
 
-from A_traitements_linguistiques import *
+from cs276.A_traitements_linguistiques import *
 
 if __name__ == '__main__':
 
@@ -11,19 +11,3 @@ if __name__ == '__main__':
     print("| 2.1 / A Traitements linguistiques                         |")
     print("------------------------------------------------------------")
     traitements_linguistiques(useful_tokens)
-
-    # print("\n------------------------------------------------------------")
-    # print("| 2.2 / B Indexation                                        |")
-    # print("------------------------------------------------------------")
-    # term_termID, doc_docID, termID_docID = indexation(useful_tokens, docs)
-    #
-    # print("\n------------------------------------------------------------")
-    # print("| 2.2.1 / C Modèle de recherche booléen                     |")
-    # print("------------------------------------------------------------")
-    # modele_booleen(term_termID, doc_docID, termID_docID)
-    #
-    # print("\n------------------------------------------------------------")
-    # print("| 2.2.2 / D Modèle de recherche vectoriel                  |")
-    # print("------------------------------------------------------------")
-    # modele_vectoriel(term_termID, doc_docID, termID_docID)
-
