@@ -11,7 +11,6 @@ def boolean_model_front(term_termID, docID_doc, termID_docID, docs_backup, searc
     if len(searched_docIDs_1) == 0:
         print("Il n'y a aucun document présent dans le corpus correspondant à votre recherche.")
     else:
-        print("Les documents correspondant à votre recherche sont :")
         for s_dID in searched_docIDs_1:
             title = ""
             for word_in_title in docs_backup[s_dID]['.T']:
